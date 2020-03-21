@@ -1,250 +1,1131 @@
-#Database for the flower delivery company
-
-DROP DATABASE IF EXISTS flowers_delivery;
-
-CREATE DATABASE flowers_delivery;
-
-USE flowers_delivery;
-
-DROP TABLE IF EXISTS occasions;
-
-CREATE TABLE occasions(
-id SERIAL PRIMARY KEY,
-name VARCHAR(255)
+DROP TABLE IF EXISTS `shelf_life_periods`;
+CREATE TABLE `shelf_life_periods` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255),
+  `amount_of_days` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
 );
+INSERT INTO `shelf_life_periods` VALUES (1,'unlimited',10000),(2,'basic',5),(3,'week',7),(4,'10days',10),(5,'2weeks',14);
 
-DROP TABLE IF EXISTS shelf_life_periods;
 
-CREATE TABLE shelf_life_periods(
-id SERIAL PRIMARY KEY,
-name VARCHAR(255),
-amount_of_days BIGINT UNSIGNED NOT NULL
-);
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `id` SERIAL,
+  `name` varchar(255),
 
-DROP TABLE IF EXISTS categories;
-CREATE TABLE categories(
-id SERIAL PRIMARY KEY,
-name VARCHAR(255)
+  PRIMARY KEY (`id`)
 );
 
 
+INSERT INTO `categories` VALUES (1,'flower'),(2,'herb'),(3,'ribbon'),(4,'rubber paper'),(5,'box'),(6,'basket'),(7,'vase');
+
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE `items` (
+  `id`SERIAL,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255),
+  `color` varchar(255),
+  `description` text,
+  `country_produced` varchar(255),
+  `amount_avaliable` bigint(20) unsigned NOT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `category_for_item` (`category_id`),
+  FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+);
+
+INSERT INTO `items` VALUES
+(1,4,'qui','silver','Cupiditate animi est inventore rem excepturi dolorem est iure. Et inventore officia ut molestiae esse magnam. Ipsa nulla facere et pariatur. Omnis alias aut enim.','IT',273,'2007-01-17 13:58:12'),
+(2,6,'amet','gray','Reiciendis voluptas aut nesciunt corrupti id. Sint vero facere porro aperiam. Nam corporis rerum dolores itaque et. Corrupti tempora mollitia id molestiae eum.','US',377,'2015-12-24 04:12:18'),
+(3,5,'quia','navy','Atque sint est voluptas aperiam laudantium sunt expedita repudiandae. Voluptas neque expedita et adipisci est. Dolorem ullam molestiae sequi veniam. Iusto quia deleniti assumenda excepturi dolor.','US',735,'1997-12-13 08:45:42'),
+(4,3,'voluptatum','teal','Eum similique accusantium ad nobis eaque quaerat doloribus. Officiis qui rerum fugiat fugiat quas sed. Nesciunt aut eum asperiores non corrupti iusto. Quas quibusdam ullam iusto impedit.','GB',950,'1971-03-02 04:10:23'),
+(5,1,'rerum','green','Tempore velit expedita ea alias magni sapiente sunt. Provident saepe aliquam distinctio voluptas iusto odio. Aut consequatur magni et voluptatem. Perferendis rem unde qui ut vitae temporibus.','IN',510,'2014-10-03 03:53:07'),
+(6,6,'esse','yellow','Aliquid eaque fugiat repellat esse et cumque quaerat delectus. Libero architecto voluptatem quisquam et pariatur asperiores. Quae omnis tenetur nostrum maxime et. Quo mollitia incidunt error doloribus dolorum.','US',477,'2013-03-09 13:22:30'),
+(7,5,'eum','purple','Vel explicabo non et vel esse alias. Dolores non quam harum eius tempore ducimus ullam. Quis autem qui modi quidem ipsum quaerat vero. In recusandae earum qui excepturi velit illum autem. Quos reiciendis voluptatem tempora quia officiis necessitatibus excepturi.','IT',805,'1988-08-15 19:17:22'),
+(8,4,'laborum','purple','Non vero corrupti qui excepturi vel autem dolores. Est fugiat eos ut voluptas. Dolores quod vero inventore quia perspiciatis molestiae sit.','ES',798,'2005-10-20 05:03:37'),
+(9,4,'id','maroon','Esse occaecati sit ut libero incidunt amet ut expedita. Reiciendis aut perspiciatis facilis qui in sed ea. Error in voluptatem minus ut id. Sed delectus ut ut qui eum enim ut quam. Quia in neque possimus inventore.','RU',563,'2001-06-10 08:17:26'),
+(10,2,'consequatur','navy','Rem quia cum soluta aut quidem ipsam cumque eos. Nihil aut quasi corporis quo. Qui repellendus provident consequatur.','DE',175,'1988-07-17 15:15:44'),(11,4,'expedita','green','Sint incidunt commodi voluptas esse rerum quia. Voluptatem eveniet ea sequi provident iusto.','IT',440,'2017-01-13 07:24:47'),
+(12,2,'illum','fuchsia','Id totam distinctio placeat est libero saepe rerum dolores. Debitis voluptatem debitis autem omnis. Natus dignissimos labore nihil velit omnis et. Quae rem facere temporibus saepe nisi perspiciatis. Reprehenderit eos accusantium tempore est corrupti atque.','US',514,'1983-09-12 04:21:59'),
+(13,6,'distinctio','silver','Ut officiis ut dolore qui qui praesentium quaerat. Delectus maiores molestias consequuntur omnis voluptatum modi at aut. Accusamus quaerat nisi quae quod quo a. Veniam ut qui aliquam dignissimos quisquam itaque.','ES',763,'2006-03-11 19:02:26'),
+(14,3,'velit','maroon','Delectus id dolore quaerat at excepturi et quia quos. Tenetur maxime eos atque commodi distinctio repellat adipisci facilis. Quo est natus dolor est sequi aliquid et. Quam est et consequatur sint.','MX',134,'1989-12-04 16:14:04'),
+(15,4,'aut','blue','Eveniet facere ea officia aperiam inventore sed. Sit error sequi sunt et officiis illo. Dolorum saepe explicabo non earum non. Quos fuga quis dolorum error et voluptas magni. Deleniti est ut occaecati veritatis architecto.','CA',773,'1991-04-23 03:06:20'),
+(16,3,'voluptas','navy','Porro maiores mollitia maxime maiores eligendi quo consequatur. Fugiat repellat labore eveniet. Ut facilis voluptas et quam et maiores. Atque et enim totam optio fugiat.','DE',758,'1983-11-01 18:09:22'),
+(17,4,'placeat','white','Voluptate non velit non et. Ad quam quos atque hic ea. Nihil qui est vel quia officia consequatur. Dignissimos rerum quibusdam iure quod blanditiis accusamus qui fugit.','MX',507,'1995-01-22 10:40:07'),
+(18,6,'soluta','green','Voluptatibus aliquid aut aut. Est libero non ullam dolores beatae dolore aperiam. Sit laudantium accusamus culpa in velit architecto non. Laborum perferendis maxime ut velit.','DE',232,'2007-05-20 06:36:21'),
+(19,1,'enim','silver','Non soluta consequatur ut labore non perspiciatis. Minus error eveniet aut sapiente et ut perspiciatis. Dolor quae nulla pariatur eos. Et mollitia occaecati nesciunt voluptates maiores.','CA',33,'2007-06-11 17:19:05'),
+(20,3,'dolores','aqua','Laboriosam molestias eos velit modi soluta quidem. Nulla quia cupiditate laboriosam est. Quidem aliquid quae molestiae recusandae.','IT',741,'1989-03-09 15:36:07'),
+(21,3,'autem','green','Sit iste rem suscipit esse sunt. Consequatur recusandae qui et hic. Sed assumenda est veniam officia.','CN',78,'1996-12-22 22:25:59'),
+(22,3,'rerum','teal','Et quia voluptate ipsa. Ut qui consequuntur est voluptatem. Et et aspernatur non mollitia dicta eius iste ex. Veniam ex assumenda suscipit eum.','IT',876,'2002-04-21 01:30:49'),
+(23,6,'voluptatum','silver','Est exercitationem sit fuga placeat. Facere totam non eum animi. Consequuntur placeat ut ut consectetur. Explicabo nihil ut nemo explicabo voluptas.','FR',538,'1997-04-04 22:39:47'),
+(24,5,'molestiae','gray','Et qui aperiam iure expedita voluptas quidem et odit. Ullam velit cumque perspiciatis aliquid et. Dolorem quidem odio quo deserunt maxime velit. Consectetur voluptas quisquam sit dolores.','IE',231,'2005-08-05 18:40:22'),
+(25,4,'fugit','yellow','Commodi amet qui qui quo. Esse dignissimos accusantium nesciunt quo nobis perspiciatis. Cumque odio officia voluptas debitis ad. Voluptas expedita distinctio illo et.','GB',12,'1973-04-30 10:31:01'),
+(26,1,'perspiciatis','olive','Enim in earum minus. Officia nulla asperiores minus doloribus commodi. Excepturi laborum minus aliquid id vero.','RU',974,'2000-10-26 14:54:09'),
+(27,6,'velit','black','Reprehenderit rerum quis aspernatur nisi modi. Reiciendis molestiae deserunt repellat animi. Iure neque consectetur vel consequatur. Tempora ut unde cum delectus quas aut. Nihil quas ipsa inventore ut qui odit et.','GB',861,'2015-05-10 05:26:46'),
+(28,2,'eveniet','aqua','Est doloremque vero expedita dolorem molestiae. Labore dolore pariatur cum exercitationem. Mollitia animi eaque sed molestiae nam provident. Similique voluptatem culpa vel ut rerum.','IE',312,'2004-01-14 09:01:05'),
+(29,5,'distinctio','fuchsia','Fuga perspiciatis cum nobis laboriosam. Nisi cupiditate quia unde aliquam. Vel laborum occaecati modi sed explicabo. Nam aut voluptas quos doloribus expedita.','GB',298,'2018-05-24 06:01:54'),
+(30,5,'dolor','blue','Blanditiis porro qui rerum quo. Sit sapiente explicabo dolorem doloremque dolorem culpa. Labore hic aspernatur sed molestiae nihil.','IE',293,'1996-02-01 08:12:04'),
+(31,7,'porro','purple','Alias voluptatum impedit vitae ex illum recusandae distinctio. Consequatur qui assumenda vel. Autem ducimus non iste magnam. Et explicabo officiis rerum sint tempora ipsam commodi.','PT',516,'1985-12-24 02:13:18'),
+(32,6,'sint','navy','Blanditiis molestias dolorem voluptas quae. Quia nihil esse sint totam illum et.','IT',346,'1997-10-25 08:47:29'),
+(33,6,'iste','navy','Illum fuga voluptate possimus et. Placeat nostrum consequatur cum sequi. Blanditiis veritatis corrupti sit fuga. Earum quidem qui facere expedita iste. Libero minus suscipit et provident error.','FR',788,'2006-07-20 15:04:31'),
+(34,6,'sunt','maroon','Qui ut quibusdam doloremque sequi a ad. Consectetur molestiae voluptatibus atque. Magnam aut quia earum.','US',316,'2009-11-22 23:25:12'),
+(35,4,'cupiditate','olive','Sed quaerat consequatur ipsam. Quia quis voluptas voluptatem exercitationem placeat eum dolor sapiente. Fugiat quod et esse libero rerum.','FR',66,'1975-01-13 22:35:50'),
+(36,6,'nihil','yellow','Veniam ipsam minus consequatur in quis quas. Esse et dignissimos neque beatae. Omnis eveniet qui a et sint quas.','GB',916,'1980-02-06 21:31:25'),
+(37,5,'nemo','fuchsia','Qui qui dicta ea nam cupiditate. Accusamus at nemo qui. Autem totam quas voluptates non excepturi.','MX',94,'1998-06-01 19:46:58'),
+(38,4,'dolores','black','Vero consequatur voluptatem temporibus corporis a fuga. Aut sequi pariatur nisi porro consequatur aliquam. Qui at quisquam molestias enim necessitatibus ad. Possimus iure et ipsum vero.','DE',1000,'1974-07-16 10:00:40'),
+(39,4,'dolore','silver','Asperiores odit repellendus doloremque. Blanditiis expedita ullam voluptas in ut.','IE',226,'1970-06-14 17:11:21'),
+(40,5,'rem','aqua','Doloremque voluptatibus porro numquam tempora maiores rerum porro. Qui quibusdam aut mollitia tenetur ex. Asperiores harum aut distinctio est aliquid.','CA',844,'2006-01-20 00:47:32'),
+(41,6,'consequuntur','aqua','Provident consequuntur expedita necessitatibus ea ullam illo. Reprehenderit numquam et sit voluptatum.','ES',473,'1971-04-26 20:50:31'),
+(42,1,'non','purple','Et et quibusdam et consequatur. Ipsa quibusdam quasi et quia ratione iure. Molestias et aliquam quibusdam et ipsam. Est totam aut vel aperiam voluptatem.','RU',364,'2010-03-08 03:23:16'),
+(43,7,'quod','white','Facilis voluptate natus architecto similique voluptatibus voluptatem. Rerum illo odio reprehenderit sed omnis. Ipsa aut non enim tempore molestias. Id incidunt explicabo non possimus enim.','IE',501,'2009-01-07 17:02:23'),
+(44,1,'velit','black','Alias aspernatur neque accusantium voluptatem. Quod optio reiciendis ex occaecati commodi mollitia sit et. Delectus dolores provident sunt veritatis sed aut officia.','GB',163,'2019-03-28 18:22:32'),
+(45,2,'nisi','teal','Consequatur quia facilis omnis neque. Inventore laudantium placeat quasi odit nesciunt error eligendi enim. Omnis nihil temporibus distinctio incidunt rem.','DE',489,'1982-10-03 14:27:37'),
+(46,4,'ut','silver','Iure tenetur sunt sint esse doloremque. Illo natus ipsam dolor enim fugit occaecati. Occaecati voluptatum corrupti est dolorum voluptas rerum.','RU',156,'2014-10-04 05:14:08'),
+(47,3,'est','gray','Sit exercitationem est beatae qui nihil consequatur. Consequatur recusandae tempora rerum laboriosam aut aut quos. Est qui expedita ipsam alias consectetur deserunt voluptates.','IE',669,'1989-01-11 15:28:29'),
+(48,7,'assumenda','purple','Et aliquam provident quis explicabo. Doloremque id magni saepe aut. Esse dolores ab hic quia. Qui iusto dolorem ducimus ipsum sint repellendus.','CA',301,'1981-08-26 23:12:16'),
+(49,3,'corrupti','teal','Nulla accusantium unde illum autem. Dolores dolor autem accusantium qui non animi. Commodi est laboriosam magni eius aliquam quia sed aut. Quidem quia molestias adipisci modi sit quo.','DE',798,'1998-07-23 10:59:08'),
+(50,6,'voluptas','silver','Perferendis ipsa vel et dolore nihil. Dolor ullam maxime molestias voluptatem. Reprehenderit quis sint fuga porro.','CN',493,'2004-07-21 06:22:07');
+
+DROP TABLE IF EXISTS `bouquets_size`;
+CREATE TABLE `bouquets_size` (
+  `id` SERIAL,
+  `name` varchar(255),
+  PRIMARY KEY (`id`)
+);
+INSERT INTO `bouquets_size` VALUES (1,'small'),(2,'medium'),(3,'large'),(4,'extra Large');
+
+DROP TABLE IF EXISTS `categories_of_bouquets`;
+CREATE TABLE `categories_of_bouquets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255),
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `categories_of_bouquets` VALUES
+
+(1,'Rose'),
+(2,'Tulip'),
+(3,'Lily'),
+(4,'Sunflower'),
+(5,'Mixed Flowers'),
+(6,'Hydrangea'),
+(7,'Orchid'),
+(8,'Carnation'),
+(9,'Daisy'),
+(10,'Iris'),
+(11,'Gladiolus'),
+(12,'Wild Flowers');
+
+DROP TABLE IF EXISTS `occasions`;
+CREATE TABLE `occasions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255),
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `occasions` VALUES
+(1,'день рожденья'),
+(2,'свадьба'),
+(3,'просто так'),
+(4,'с извинениями'),
+(5,'выздоравливай'),
+(6,'думаю о тебе'),
+(7,'мои поздравления'),
+(8,'романтические'),
+(9,'с рождением ребенка');
 
 
-DROP TABLE IF EXISTS flowers_and_herbs;
+DROP TABLE IF EXISTS `bouquets`;
+CREATE TABLE `bouquets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255),
+  `description` text,
+  `price` decimal(7,2) unsigned NOT NULL,
+  `image_url` varchar(255),
+  `size_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `size_of_bouquets` (`size_id`),
+  CONSTRAINT `bouquets_ibfk_1` FOREIGN KEY (`size_id`) REFERENCES `bouquets_size` (`id`),
+  CONSTRAINT `bouquets_ibfk_2` FOREIGN KEY (`size_id`) REFERENCES `categories_of_bouquets` (`id`)
+) ;
+--
+-- Insert  data for table `bouquets`
+--
 
-CREATE TABLE flowers_and_herbs(
-id SERIAL PRIMARY KEY,
-category_id BIGINT UNSIGNED NOT NULL,
-name VARCHAR(255),
-color VARCHAR(255),
-description TEXT,
-price DECIMAL(7,2) UNSIGNED NOT NULL,
-country_produced VARCHAR(255),
+INSERT INTO `bouquets` VALUES
+(1,4,'qui','Error et molestiae dignissimos. Saepe recusandae provident sint corrupti. Voluptas rem et molestiae consequuntur vero. Dignissimos ullam quos perferendis nisi.',91235.28,'tmp//939b2f8c83bd01b4f4f832ff9cd230d3.jpg',3),
+(2,9,'sed','Esse et saepe velit molestias perferendis est fugiat perferendis. At labore magnam cupiditate rerum veritatis cum. Qui cupiditate occaecati voluptates praesentium alias autem cumque. Totam quibusdam unde voluptatem.',99999.99,'tmp//56c8f456ce7e9ee2158c6310d22728bb.jpg',3),
+(3,7,'rerum','Quasi sed recusandae similique eum in tempora. Repudiandae pariatur debitis dolore sit.',99999.99,'tmp//7812959919de997d3f577dbcef916d67.jpg',1),
+(4,11,'officiis','Optio eos accusamus laborum ratione veritatis. Id rerum corporis dicta quia iste ipsam. Qui quibusdam non voluptas impedit.',61.73,'tmp//3c874614f702657f71f7eba755081020.jpg',2),
+(5,3,'cumque','Culpa minus accusantium labore in. Est vero provident odit non voluptas. Voluptates maxime atque laudantium non repudiandae voluptas.',39.32,'tmp//4b00b15470d1301dfb32d8db3d8d5728.jpg',2),
+(6,1,'voluptatum','Autem esse quibusdam facilis ut nihil necessitatibus. Nostrum minus rerum dolores architecto. Perspiciatis unde facere neque rerum. Quisquam qui et incidunt beatae.',99999.99,'tmp//477f3d96f459fc879cd61c0eee7cad58.jpg',4),
+(7,6,'vitae','Ut cumque rem fugiat aut id sunt aut. Amet at quibusdam necessitatibus odio vero hic consequatur. In dolorem deserunt dolores et quia. Et sed non dolores et. Quas et quisquam ut beatae voluptas.',64.92,'tmp//d0463011d88bed69952dd7378b167237.jpg',1),
+(8,9,'accusamus','Dolorum fuga et hic aut officiis quia asperiores. Laboriosam esse dolor ut omnis quo quo aliquam. Cupiditate illum nihil dolore veritatis eos tenetur. Id repudiandae voluptatem voluptatibus facilis illum.',47.20,'tmp//843a566eec2bf78ed896cbc9cd60e6d2.jpg',4),
+(9,2,'quas','Voluptate placeat alias eveniet est cumque. Incidunt dolor praesentium molestiae ex autem consequatur. Eveniet dolorem nulla mollitia ut sequi. Est ipsa omnis tempora non et molestiae.',67458.75,'tmp//5fb611854cccc8895610b36ccc6ca5ce.jpg',1),
+(10,3,'earum','Sunt itaque eos sint distinctio quia ut alias. Eius dignissimos praesentium facilis molestiae in.',99999.99,'tmp//d6d309e3189370f1cb86ad72a475f190.jpg',3),
+(11,7,'voluptatem','Et dolorem odio sunt debitis qui aut qui. Voluptas inventore qui quo nihil. Voluptatibus nam repudiandae non praesentium rem. A aliquid est non quisquam sequi distinctio nisi.',17112.18,'tmp//e1a6aeda5faee64d3bf660ad58194ee4.jpg',3),
+(12,12,'aliquam','Non autem consequatur eum et dolores. Ea consectetur accusamus rerum. Quos ad vel dolores pariatur cum qui. Nobis dicta tempore corporis perferendis recusandae.',72.88,'tmp//eda304131da4f2857e95b31479197247.jpg',4),
+(13,6,'corporis','In consectetur iusto cumque occaecati error omnis. Debitis culpa voluptas error voluptatem aliquam enim. Sunt odit porro et a omnis.',10.94,'tmp//3d4d64ac78f61dc39cecbd53baa5a927.jpg',4),
+(14,6,'et','Porro consequatur accusamus non dolores ex. Voluptas illum quia quidem accusantium vel et sed. Illum ipsam voluptas architecto animi cum.',185.20,'tmp//2ff8d9a4b08b8df7b4bb08b5c435d84b.jpg',2),
+(15,7,'ut','Quis occaecati molestiae id culpa dolores tenetur asperiores. Accusamus accusamus iusto tempore pariatur dolorem nisi voluptatem est. Consequatur non eos voluptatibus animi voluptates commodi similique.',298.73,'tmp//2d473eef650a603ec34b466451de0d80.jpg',1),
+(16,9,'est','Est omnis soluta soluta corporis sit ab. Velit dignissimos nobis error dicta non debitis saepe. Quia error est voluptatem non molestias architecto fugiat vel. Non quaerat architecto aut consequuntur consequatur ut.',99999.99,'tmp//94fa87a7dbac81ca7c7835883f1fe9e1.jpg',1),
+(17,2,'omnis','Similique iste voluptatem mollitia est error inventore. Nihil beatae vel ut unde omnis. Vel magnam similique fugit eligendi in. Officia est autem quo iste. Consectetur animi illo et.',99999.99,'tmp//721b5ba7b4c67e132ea9d296002b489d.jpg',1),
+(18,6,'doloribus','Optio voluptatibus excepturi ea odio ea ut. Voluptatum repellendus porro maiores quasi ab in. Hic provident voluptatem nobis.',1813.22,'tmp//31a6596512dcdca73232254f8f490ac6.jpg',3),
+(19,11,'vitae','Nesciunt et magnam ut provident doloremque. Maiores aliquam exercitationem tenetur et sit amet. Quia aut ipsam fugiat perspiciatis nihil dolore.',99999.99,'tmp//0d55495841603acd05e4b2439a2fa7f3.jpg',3),
+(20,2,'exercitationem','Et autem qui et quia nisi. Voluptatem minima aut earum architecto. Aperiam unde reiciendis deserunt earum consequatur unde.',28.70,'tmp//7cdab4ed8be1bda8906bcf69b289965a.jpg',2),(21,7,'esse','Cumque voluptatem sit eum ratione harum tempore. Consequuntur molestiae voluptate ut tenetur laborum voluptatem asperiores. Eos magni ipsam odio et est explicabo. Dicta quam aut pariatur vel.',48390.29,'tmp//247bfe264961e72afd88148bc79c699b.jpg',4),
+(22,5,'ut','Voluptatum ut non praesentium et omnis quo temporibus dolor. Quas rerum adipisci est odio laboriosam in animi. Voluptas sunt dolorum corrupti ipsam libero magni.',34.93,'tmp//936faa50ab5f18b0e7436af65ce89ded.jpg',2),
+(23,5,'placeat','Nesciunt accusantium non necessitatibus magni nostrum. Cumque error consequatur dolorum sunt tempora. In laudantium eos est est qui.',99.05,'tmp//776c6cb5253272ae57319d2879f864bd.jpg',2),
+(24,2,'numquam','In deleniti vitae praesentium veritatis quidem eligendi. Omnis itaque doloribus eum et dolores perspiciatis. Ea deserunt dignissimos impedit aut voluptatem illo nam.',98.29,'tmp//0c41fdc2e5f7e536ad337f2a01c4a888.jpg',4),
+(25,12,'doloribus','Non vel at et ea voluptas. Inventore deleniti enim quia. Hic pariatur ipsa consequatur non repudiandae. Magnam voluptatem error reprehenderit assumenda dicta deleniti.',49890.25,'tmp//feef3abcbdf1cb7e3fa0e92b9545e349.jpg',2),
+(26,8,'vel','Cumque exercitationem voluptatem quam nihil a. Molestiae cumque soluta vel magnam possimus est. Maiores sequi necessitatibus odio repudiandae vero hic.',551.54,'tmp//0aee2b0964459b11639a18d76ec042ea.jpg',1),
+(27,10,'repudiandae','Et necessitatibus quia non eligendi ut. Culpa porro qui itaque exercitationem rem placeat. Magni id et minus rerum rerum. Magnam tenetur quia qui error neque vel. Cumque id voluptatum et officiis.',7216.23,'tmp//181e859d8cb936098946f7ca346bd492.jpg',1),
+(28,6,'aperiam','Distinctio unde ullam voluptate quis unde commodi. Libero culpa voluptatibus excepturi sapiente itaque. Vitae voluptatum et voluptatum illo autem aut quis. Dignissimos sequi incidunt dolorum vero. Consectetur aut aut veritatis incidunt voluptate.',6707.87,'tmp//4a40d563660045d2d3b21e21e64642a1.jpg',4),
+(29,9,'voluptatum','Et optio dolorum exercitationem tenetur sunt ut omnis rem. Est aliquid in commodi odio. Aperiam ut inventore consequatur.',99999.99,'tmp//33f68b540d134ac0f6c83610e4e59318.jpg',2),
+(30,10,'aut','Consequatur velit est eius omnis eum est est tempora. Delectus id dicta ea repellat numquam sequi. Maiores at id fugiat cupiditate.',26341.02,'tmp//48b0f42994f27bb93c6060d511bbd939.jpg',3),
+(31,3,'et','Sequi accusamus molestiae qui exercitationem. Dolores quod omnis est. Est voluptas reprehenderit officia.',35.33,'tmp//6b72555f479db02753132319a4de61fe.jpg',4),
+(32,6,'pariatur','Beatae cum ad esse dolor. Facere et velit ut voluptas eos quasi.',82.72,'tmp//af90c2880309ff26adaf74f58c535302.jpg',4),
+(33,3,'aspernatur','Quibusdam velit et quia expedita. Eos ut nostrum iusto inventore neque. Distinctio ducimus voluptas iure consequatur sed. Ut voluptatem quo et amet quia omnis.',56.18,'tmp//298669451b07c34eda3f0ae7a267b03b.jpg',2),
+(34,11,'tenetur','Et sit omnis aut hic dolorum. Eos incidunt sed maiores rerum autem consequuntur ipsam laudantium. Accusamus sapiente soluta harum sint. A quisquam eum aspernatur magnam.',618.57,'tmp//141e1fbed4a011a3a897dff60eaab299.jpg',2),
+(35,10,'dolores','Voluptatibus eligendi rerum eum ad nostrum aut. In enim facere eos et magni est aut. Ea non quis vero quo quia vero. Sunt dolor unde qui tempore.',99999.99,'tmp//743e4ead0c0c31865a99a8dc058b6def.jpg',3),
+(36,10,'animi','Non dicta nobis earum ea porro sed vel. Reiciendis doloremque sint quis eius enim molestiae non. Asperiores perferendis voluptatum et.',25.43,'tmp//4cb0b7767189a293ac347dad8fddf63d.jpg',1),
+(37,10,'vel','Iusto mollitia nesciunt quae assumenda. Saepe doloribus voluptatem voluptas fuga nam omnis. Et quisquam dolorum voluptatem aut sint recusandae. Iusto adipisci hic sed minima voluptatem rerum.',56171.06,'tmp//f04433259164d6cc72d08c19859a257a.jpg',1),
+(38,3,'eius','Cupiditate vero sint porro quia alias voluptates a. Debitis doloremque aut ex. Accusamus dignissimos eum deserunt. Voluptatem blanditiis debitis eveniet eius omnis. Qui atque nihil aspernatur excepturi possimus impedit laudantium fugiat.',937.09,'tmp//5753c9d1412fe30e36dc8aa97dabeb87.jpg',3),
+(39,3,'quod','In explicabo impedit veniam voluptatibus iusto excepturi. Accusamus pariatur nulla enim consequatur ad. Quibusdam iusto et quasi. Eos temporibus illo sapiente harum aut ab ut accusantium.',99999.99,'tmp//eb72f576defb3b9c37304649ba9cf146.jpg',2),
+(40,5,'error','Quia iure assumenda praesentium. Ducimus non quae eum debitis porro quos quod odit. Mollitia sit voluptatem quia sequi ea laborum eos est. Voluptatem sunt dolorum eos non a aut sed. Nihil est qui quo.',207.41,'tmp//64c2b6a23823c69f4d64e2282c7c2af8.jpg',4),
+(41,4,'nemo','Dicta exercitationem et labore ut animi ratione. Repellat inventore ut voluptatem nisi sed. Tempore dolor praesentium debitis unde voluptatem molestiae quia autem. Quam et consequuntur distinctio. Delectus tenetur sapiente itaque voluptatem illum aut qui.',53.42,'tmp//3c09f4d538a83b082d0cb31dc5c2322c.jpg',2),
+(42,10,'omnis','Esse atque reiciendis dolorem ut. Quae ut quidem at minus molestiae voluptatem voluptatem consequatur. Tenetur dolorem qui quae molestias modi dicta consequuntur.',99999.99,'tmp//ff58b343a5691e7ddcf266009a371a4f.jpg',3),
+(43,6,'quod','Et aut ipsa dicta non dolorum repellendus voluptatem. Nesciunt nihil impedit enim. Eius in rerum quia voluptatem quis.',682.99,'tmp//a2341f50b0e035884fd55b161f8aaae9.jpg',2),
+(44,10,'possimus','Soluta explicabo fuga aperiam et ab. Fugiat ducimus quos eum. Voluptates atque sit quo. Eos dolore consequatur sit explicabo quasi voluptatem. Nihil rerum doloribus quisquam praesentium.',90.77,'tmp//480610f341eb6e898e00df9a9c0941de.jpg',1),
+(45,10,'ut','In sunt sed inventore est rem necessitatibus. Consequatur culpa dolor expedita et porro debitis. Eos explicabo qui iste ut consequatur cum. Labore reprehenderit commodi incidunt suscipit est expedita. Modi optio voluptates dolore quaerat enim.',4885.57,'tmp//ffa81d4b289d7bf4e5eaa3d37b457227.jpg',2),
+(46,2,'optio','Eaque molestiae autem cupiditate corrupti at officia. Expedita debitis et aut quod et incidunt ea. Magni natus exercitationem error soluta iste et. Consequatur debitis ad nobis.',4537.54,'tmp//74f78f5cb08cf9c31fceaec519d58dfe.jpg',4),
+(47,7,'aut','Dolorum possimus earum alias et dolore quibusdam. Rerum corrupti illo et eveniet voluptas quisquam optio. Sunt aspernatur commodi sit sint voluptatibus impedit perferendis quos. Facilis qui odit sunt odit ea dolor voluptas asperiores.',42.25,'tmp//d44f54d4eaf15d9ea9aa1200e4fb1425.jpg',4),
+(48,8,'voluptas','Ipsam perspiciatis ipsam quasi et sed fuga. Eos autem quae inventore deleniti. Quos impedit et dolor ab dolorem.',99999.99,'tmp//47269551db2e853d9fb5487cfe918883.jpg',2),
+(49,3,'est','Rerum vero dolorem aut amet expedita eius. Autem qui sed aperiam aliquid sed quo. Eos sed debitis quaerat dolore sed. Eligendi aperiam sint omnis modi ut veritatis nesciunt.',52.71,'tmp//983584bd41e0ead424bc91142b28ab65.jpg',1),
+(50,3,'in','Incidunt cumque quia dicta similique vel officiis nesciunt. Voluptatem qui labore possimus quis sint culpa veritatis. Illum est quo dolorum perferendis. Voluptas sit dignissimos aut qui quia molestiae.',36563.69,'tmp//c231a810859fe6c9e40c8f4f0beefd84.jpg',2);
 
-FOREIGN KEY category_for_item (category_id) REFERENCES categories(id),
+DROP TABLE IF EXISTS `occasions_bouquets`;
+CREATE TABLE `occasions_bouquets` (
+  `bouquet_id` bigint(20) unsigned NOT NULL,
+  `occasion_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`bouquet_id`,`occasion_id`),
+  INDEX `occasion_id_key` (`occasion_id`),
+  FOREIGN KEY (`bouquet_id`) REFERENCES `bouquets` (`id`),
+  FOREIGN KEY (`occasion_id`) REFERENCES `occasions` (`id`)
+);
 
-INDEX category_for_item (category_id)
+INSERT INTO `occasions_bouquets` VALUES
+(3,1),
+(7,1),
+(19,1),
+(28,1),
+(39,1),
+(42,1),
+(44,1),
+(49,1),
+(5,2),
+(6,2),
+(9,2),
+(13,2),
+(14,2),
+(22,2),
+(26,2),
+(31,2),
+(33,2),
+(36,2),
+(38,2),
+(42,2),
+(48,2),
+(4,3),
+(9,3),
+(17,3),
+(18,3),
+(19,3),
+(21,3),
+(25,3),
+(1,4),
+(3,4),
+(4,4),
+(5,4),
+(11,4),
+(18,4),
+(27,4),
+(29,4),
+(33,4),
+(34,4),
+(41,4),
+(43,4),
+(45,4),
+(46,4),
+(7,5),
+(8,5),
+(17,5),
+(21,5),
+(22,5),
+(25,5),
+(32,5),
+(40,5),
+(3,6),
+(10,6),
+(23,6),
+(24,6),
+(25,6),
+(38,6),
+(44,6),
+(50,6),
+(1,7),
+(2,7),
+(4,7),
+(8,7),
+(12,7),
+(16,7),
+(19,7),
+(27,7),
+(35,7),
+(43,7),
+(45,7),
+(49,7),
+(3,8),
+(4,8),
+(10,8),
+(21,8),
+(24,8),
+(26,8),
+(8,9),
+(9,9),
+(12,9),
+(16,9),
+(17,9),
+(18,9),
+(21,9),
+(26,9),
+(28,9),
+(33,9),
+(43,9),
+(47,9);
+
+
+
+DROP TABLE IF EXISTS `items_in_bouquets`;
+CREATE TABLE `items_in_bouquets` (
+  `bouquet_id` bigint(20) unsigned NOT NULL,
+  `item_id` bigint(20) unsigned NOT NULL,
+  `quantity_used` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`bouquet_id`,`item_id`),
+  KEY `item_in` (`item_id`),
+  FOREIGN KEY (`bouquet_id`) REFERENCES `bouquets` (`id`),
+  FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
+);
+
+INSERT INTO `items_in_bouquets` VALUES
+(1,23,9),
+(1,45,2),
+(2,14,2),
+(2,25,6),
+(2,35,7),
+(2,46,8),
+(3,11,6),
+(3,22,1),
+(3,25,6),
+(3,33,9),
+(3,36,1),
+(3,39,7),
+(3,41,6),
+(3,44,7),
+(4,7,6),
+(5,6,9),
+(6,6,7),
+(6,10,6),
+(6,12,6),
+(6,16,9),
+(7,7,9),
+(7,44,8),
+(8,17,7),
+(8,45,1),
+(9,6,7),
+(9,10,1),
+(9,13,8),
+(9,18,3),
+(9,27,7),
+(10,18,5),
+(10,24,3),
+(10,47,9),
+(11,8,8),
+(11,13,6),
+(11,44,7),
+(12,3,8),
+(12,5,7),
+(12,17,4),
+(12,38,7),
+(13,35,6),
+(13,36,7),
+(13,42,5),
+(14,8,6),
+(14,12,6),
+(14,14,7),
+(14,17,7),
+(14,20,3),
+(15,14,1),
+(15,40,8),
+(15,45,1),
+(15,48,6),
+(16,1,9),
+(16,30,9),
+(17,28,3),
+(17,31,4),
+(18,5,9),
+(18,33,5),
+(18,43,5),
+(19,45,2),
+(20,10,4),
+(20,28,7),
+(20,38,2),
+(21,17,1),
+(22,3,2),
+(22,8,4),
+(22,13,7),
+(22,40,4),
+(22,44,1),
+(22,47,6),
+(23,12,8),
+(23,23,8),
+(23,38,5),
+(23,43,5),
+(24,17,1),
+(24,27,7),
+(24,44,9),
+(24,49,7),
+(25,5,2),
+(25,14,8),
+(25,23,2),
+(26,2,5),
+(26,28,7),
+(26,48,8),
+(27,3,1),
+(27,20,7),
+(28,19,9),
+(28,46,6),
+(30,10,7),
+(31,1,2),
+(31,13,6),
+(31,28,6),
+(32,22,6),
+(32,38,3),
+(33,26,2),
+(33,29,1),
+(34,40,4),
+(34,42,5),
+(36,4,7),
+(36,47,4),
+(37,22,3),
+(37,27,8),
+(37,48,9),
+(38,2,1),
+(39,10,6),
+(39,33,1),
+(39,43,9),
+(40,15,7),
+(40,34,3),
+(41,3,8),
+(41,30,6),
+(41,50,7),
+(42,23,2),
+(42,24,3),
+(42,35,7),
+(42,47,2),
+(42,48,4),
+(43,6,3),
+(43,10,3),
+(44,3,4),
+(44,8,8),
+(44,10,6),
+(44,25,7),
+(44,47,8),
+(46,18,1),
+(46,36,3),
+(46,50,9),
+(47,39,4),
+(48,21,3),
+(48,45,9),
+(49,10,7),
+(49,34,4),
+(49,45,3),
+(50,9,7),
+(50,13,1),
+(50,17,2),
+(50,30,2),
+(50,40,4),
+(50,41,6);
+
+DROP TABLE IF EXISTS `promo`;
+CREATE TABLE `promo` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `starting_on` datetime,
+  `finishing_on` datetime,
+  `amount` bigint(20) unsigned NOT NULL,
+  `category_applied_for` bigint(20) unsigned,
+  `bouquets_applied_for` bigint(20) unsigned,
+  PRIMARY KEY (`id`),
+  INDEX `category_applied_for` (`category_applied_for`),
+  INDEX `bouquets_applied_for` (`bouquets_applied_for`),
+  FOREIGN KEY (`category_applied_for`) REFERENCES `categories_of_bouquets` (`id`),
+  FOREIGN KEY (`bouquets_applied_for`) REFERENCES `bouquets` (`id`)
+)
+
+INSERT INTO `promo` VALUES
+(1,'2020-05-16 14:03:31','1983-01-16 16:07:09',29,11,45),
+(2,'2010-09-19 00:38:47','1982-07-02 07:09:40',2,NULL,44),
+(3,'1999-01-04 08:15:33','1999-04-17 08:50:18',50,9,13),
+(4,'1995-08-14 17:17:04','1986-07-10 17:02:53',26,5,26),
+(5,'2004-10-14 15:58:33','1986-07-05 09:31:40',73,1,4),
+(6,'1988-01-06 07:41:46','2000-02-09 22:29:26',82,11,23),
+(7,'1982-01-17 02:42:27','1996-02-23 12:58:50',54,10,11),
+(8,'1972-11-28 21:27:05','1994-04-21 01:55:32',66,NULL,9),
+(9,'1988-01-23 04:37:28','2006-03-01 16:58:38',99,7,48),
+(10,'1987-02-23 13:46:26','1980-10-08 07:45:43',96,11,14),
+(11,'2018-11-17 05:09:57','2006-11-22 07:59:18',47,NULL,17),
+(12,'1974-05-18 10:16:53','2015-12-13 09:17:22',69,10,3),
+(13,'1997-05-20 18:09:40','2020-04-11 12:03:56',55,2,32),
+(14,'1983-02-22 04:12:13','1997-02-19 21:08:35',6,6,28),
+(15,'2020-06-20 12:05:23','2003-12-05 07:46:22',36,NULL,21),
+(16,'1990-08-05 08:54:50','1988-03-06 18:09:24',52,2,39),
+(17,'1995-12-14 12:36:17','1995-06-28 18:03:35',53,6,21),
+(18,'2020-01-25 06:15:16','2020-06-02 03:42:04',6,7,24),
+(19,'2005-12-15 04:46:03','1989-07-05 07:35:07',43,9,35),
+(20,'2008-09-24 13:50:18','2018-07-17 16:19:23',58,3,48),
+(21,'1989-06-04 22:06:33','1993-09-30 01:41:24',18,10,10),
+(22,'1978-11-20 20:56:00','1983-07-12 22:49:26',68,4,15),
+(23,'2002-09-21 06:01:35','1975-09-26 23:35:27',76,12,31),
+(24,'2008-10-12 23:29:23','2020-04-05 03:19:39',28,10,27),
+(25,'2020-08-13 16:32:33','2005-10-02 14:46:18',11,1,10),
+(26,'1974-10-30 06:45:59','1971-06-26 06:52:12',24,10,44),
+(27,'1988-01-30 03:54:04','1978-07-10 23:12:56',27,3,5),
+(28,'2009-03-31 23:19:18','2014-01-11 07:49:36',98,8,19),
+(29,'2015-07-03 09:37:20','1985-04-06 14:57:56',88,2,15),
+(30,'2013-03-03 15:56:48','2018-08-11 07:52:05',71,8,21),
+(31,'1995-01-26 13:22:42','1990-04-12 10:10:33',57,6,44),
+(32,'1978-06-18 05:23:32','2015-06-30 05:42:08',36,5,32),
+(33,'1971-09-01 05:46:52','1977-05-12 06:19:44',25,11,20),
+(34,'1974-01-03 10:22:51','2006-02-16 14:51:08',6,12,46),
+(35,'2010-04-15 21:52:24','2018-12-12 23:29:10',13,11,46),
+(36,'2020-01-27 09:18:40','1977-02-04 17:50:57',71,7,15),
+(37,'1997-03-01 05:31:45','1988-07-12 16:38:04',36,6,17),
+(38,'1996-07-06 15:35:49','2001-07-24 10:48:02',62,8,NULL),
+(39,'1970-01-20 23:07:41','1979-06-16 08:48:17',8,9,28),
+(40,'2020-12-29 04:03:35','1993-01-19 05:41:46',38,4,9);
+
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+                         `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                         `first_name` varchar(255),
+                         `last_name` varchar(255),
+                         `email` varchar(255),
+                         `phone` bigint(20),
+                         `password_hash` varchar(255),
+                         `bithday` date,
+                         `register_at` datetime DEFAULT CURRENT_TIMESTAMP,
+                         PRIMARY KEY (`id`),
+                         INDEX `last_name_first_name` (`last_name`,`first_name`),
+                         INDEX `users_phone_idx` (`phone`),
+                         INDEX`users_email_idx` (`email`)
+);
+
+INSERT INTO `users` VALUES
+(1,'Clare','Swaniawski','katherine80@example.com',443113,'616a23c1e3a11d14f1b183280faa72951fd70bcf','1975-08-04','1997-04-13 18:56:54'),
+(2,'Philip','Kilback','wtorphy@example.net',1,'c0f4ecc0e3c1e7bcacdaefafe8ef3bf5c327ce6b','1981-01-27','2017-06-09 08:03:49'),
+(3,'Ardith','Kuvalis','wisoky.noe@example.org',1,'207d0cc47edcd61d3cfc120700d0febc3a77e344','1990-12-18','1980-02-06 16:24:38'),
+(4,'Lysanne','Rau','trisha16@example.org',989,'14483ea413cf389c946eb2e2679f7c32ca3578d2','1986-08-20','1980-01-29 18:30:11'),
+(5,'Augustine','Durgan','reyes.beahan@example.net',7812847695,'47b3522ccdc802de6964ea00d07de357d439b65f','1986-09-24','2008-06-02 19:37:03'),
+(6,'Ephraim','Nienow','fchamplin@example.net',5838058833,'1168a1d2c5d90199d0bb14a1dfd2290c1fd0ab5f','1980-05-10','2006-06-24 13:58:50'),
+(7,'Warren','Ritchie','eboyer@example.org',745405,'b1684c4496d2a0f89289da60512660f11143feea','2016-04-29','2011-03-02 01:44:51'),
+(8,'Carlee','Corkery','ephraim06@example.com',0,'01d61f7d98134cf7ce59570fc0eb6864499da75d','2018-11-06','1977-08-14 07:28:22'),
+(9,'Jamal','Goodwin','kward@example.com',0,'04037268e0336ecd8959ef2fb282aedce0294446','1980-09-20','1983-04-26 08:26:15'),
+(10,'Richard','Labadie','annie.lowe@example.org',1,'f9ac94c7961bb4236a8e8299a6d8f21280899d63','2012-01-14','1978-11-26 02:22:25'),
+(11,'Oliver','Roob','lconroy@example.com',0,'30521f310b1580d327e150b013bf3fb1a3899c05','1990-01-21','2003-01-29 01:47:08'),
+(12,'Margarett','Moen','selina96@example.com',528699254,'dfaedca2b6fbf63805a2919e87b678074682f43a','1977-08-24','1988-07-23 14:53:30'),
+(13,'Jedidiah','Hirthe','little.hope@example.com',0,'9e2e96fdee72bceda38dc40f9647106bbc19626f','1984-12-28','1999-03-21 10:24:01'),
+(14,'Anika','Bernhard','diamond.wiegand@example.net',639079,'4b2ebfc7509bf3222f8247e4a4e78890b81fa8ee','1993-01-04','1985-06-15 16:42:03'),
+(15,'Barton','Kirlin','cstamm@example.net',59,'205530af755482752c0dec356292802aebaedcef','2015-06-14','1971-07-21 21:51:01'),
+(16,'Reanna','Raynor','cecil.goyette@example.com',1,'0d15be2489ae9b63d29304b8e058288cb72ed755','2002-06-18','1983-10-30 11:47:06'),
+(17,'Retta','Schmidt','kreiger.harley@example.org',0,'18613618090b825820e6608683d045121bd3c8ae','2008-01-04','1975-05-26 02:16:27'),
+(18,'Albertha','Dare','bailey.duane@example.org',1,'1e12e8feb971030a5b478f63da3fbbb3ca05a813','1996-01-10','1980-09-01 03:34:15'),
+(19,'Fabiola','Kihn','lharris@example.com',0,'6dd925efbfcfff9414d7e91896b47f9190acf011','1992-03-09','2015-03-21 04:42:44'),
+(20,'Queenie','Stokes','leone45@example.com',215216263,'5234e9a0186af5a2a8e50a1c8a4419ded359e867','1988-07-08','1996-04-11 01:35:52'),
+(21,'Cecilia','Satterfield','margarett.ondricka@example.net',728008,'abc86bf3d4ac5432fb1e0bd4fe376f75cd2a2858','2013-01-09','1981-02-22 22:11:18'),
+(22,'Addie','Casper','littel.krystal@example.com',0,'b6178328b258f37c4cb531d23f13f9a9733635f7','1975-12-02','2009-01-26 17:43:20'),
+(23,'Cristopher','Gleason','sosinski@example.com',474283,'05e7ed31e3cf6f48547f011f4f519a70a7a07ab4','1974-07-20','1990-04-13 08:19:00'),
+(24,'Annetta','Kris','kkeeling@example.net',1,'f90a6619b4148b5a97c754fa6694919710311fba','1997-04-08','1976-08-08 10:17:25'),
+(25,'Abdiel','Lindgren','wilderman.jeramy@example.net',857713,'7c616952102e094a6b384ac1844748f89095d684','1975-04-07','2014-10-17 22:31:53'),
+(26,'Destiny','O\'Conner','kelly.vandervort@example.org',0,'8f01032d57e1c8023fa61e70f7f34e7640bd7f7a','1985-11-22','1971-02-24 20:09:37'),
+(27,'Letha','Veum','hparker@example.org',462671,'aefbc48a408e5c91ab0421e74e980bd4195c79a8','1995-02-05','2015-02-08 15:14:00'),
+(28,'Jada','Gottlieb','zbaumbach@example.com',24,'fbfd690c64bc818f3bd9a81ee3b27bf60aa38072','2014-01-12','2014-12-29 20:37:01'),
+(29,'Kyler','Pollich','garth28@example.org',0,'cd22bd5b7cd47a080212b9a4fdd135d5ab70e8f6','2003-07-17','2013-11-03 08:22:51'),
+(30,'Ashley','Auer','veum.michael@example.org',0,'e349f9e0a4ac455aa4946d6f3b2dd5f0fb8c7017','1980-03-24','2015-11-16 05:25:13'),
+(31,'Loyal','Pollich','cortiz@example.org',82,'f99ef55a4b40eec8105fbeecee3cd1451c24b4c8','1989-10-07','1973-12-22 12:11:54'),
+(32,'Bernardo','Dietrich','loma01@example.com',661,'6ead454b7bb235c14147588327cc261aaa618376','2009-04-13','1979-02-06 00:04:20'),
+(33,'Jeremie','Gorczany','orolfson@example.org',17,'18fb80ec6e21d5e25f33f31223bc7e55deb39bf9','2012-03-27','2003-04-25 03:05:56'),
+(34,'Christy','Carroll','bergnaum.quincy@example.com',0,'a71a331db04d5522f68b23e60fcbf9d210bdd1cd','2005-09-18','1993-03-03 17:57:49'),
+(35,'Flossie','Tromp','beau62@example.org',1,'e8f3aaa028a50d64b05be87159d37748774f8e0e','1974-06-29','2017-02-27 10:24:09'),
+(36,'Erwin','Barrows','margie00@example.org',133,'4afa1fa5880e87c3b89abaf20639f546c4762f61','2006-11-11','2019-01-16 17:28:41'),
+(37,'Cooper','Lubowitz','wilmer.strosin@example.com',0,'c3a0e0b7ba88025841f89e9220e7f6da01c3c21f','1983-04-01','2012-02-04 19:00:21'),
+(38,'Ronny','Denesik','delilah.zieme@example.org',535407,'655fa6f4162c101b375dc7f255d49f060e625992','2010-10-02','1982-04-01 15:42:04'),
+(39,'Devon','Haag','dietrich.andy@example.org',729,'ffc26ec431c352fc6ea2dba00fba48b2c3228f8e','1974-08-27','1978-05-20 06:26:24'),
+(40,'Alysson','Wisozk','ikreiger@example.net',1,'ef366a46dabf8d906d7ac4dbfa7b4c83fb7014ee','2000-12-15','2001-03-04 18:27:27'),
+(41,'Mercedes','Nienow','botsford.maia@example.org',876373,'247fa92e1019cad559cff316aef0ab59d7533f30','1991-03-20','1975-11-03 08:12:11'),
+(42,'Holden','Kozey','braun.walker@example.net',310315,'9306b8a3e1a918d31f4a7c275df3f4bf6187cd06','1978-12-08','1995-07-22 13:21:27'),
+(43,'Vito','Hoppe','alta38@example.org',1,'b711d548808861dd9d3cf6a3f8c13fd5616e4eb0','2003-01-05','1985-02-04 15:15:35'),
+(44,'Luna','Dibbert','fleta.schulist@example.com',789817,'a8127804e9d2773c575803facae10f065bc3dd2a','2015-08-13','2016-03-11 07:58:18'),
+(45,'Koby','Hartmann','agoyette@example.net',927441,'307c346188ed8d70cc01d3905dbd8da870dc29a9','1985-01-27','2008-08-12 09:25:54'),
+(46,'Griffin','Stokes','luigi81@example.org',0,'753f00b5abc1a5795c7fa50b2ab310bfabf61b75','2009-12-14','1972-04-12 17:30:58'),
+(47,'Keely','Barrows','avis22@example.net',6390704853,'ff3220847d792b74fd9b3e95df8fe573d3ad6d43','1994-02-05','1974-07-21 15:30:18'),
+(48,'Samir','McClure','reece30@example.net',355,'7c236699b8167fe14d57119fad5d6955266532a0','2017-01-21','2016-09-25 17:41:06'),
+(49,'Alessia','Mueller','rodrick22@example.net',1,'5d0c7d50dd31efe11b0c290595d14f3fb6609f23','1974-11-30','1985-05-08 12:49:14'),
+(50,'Aliza','Jaskolski','bernadette.ankunding@example.net',0,'f87cad6aa31ffb9b032807218cb891d7861a1771','1978-11-24','2014-10-13 10:21:03'),
+(51,'Edyth','Koch','pamela76@example.com',285177,'78ba865a929fa55eadc0c9b267cb33f031434155','2000-06-19','1976-03-16 09:20:16'),
+(52,'Harrison','Walsh','ucassin@example.net',8930287041,'e3230544e08e6100607e04c40b23a408493f6ab8','1989-04-18','2011-08-30 12:37:17'),
+(53,'Claire','McDermott','nienow.maximillia@example.com',1,'4e9d895c6d1d196c73a4f4edfa9f0bd8bf9b2927','2013-08-14','2010-06-12 21:32:54'),
+(54,'Jameson','Kuhic','santos.boyer@example.org',744747,'449c56a3e0edb90295e01cc85a210c50843d2972','1982-03-25','2017-01-21 01:07:37'),
+(55,'Ian','Haag','marco94@example.com',577261,'695d2152c8add7bdbaad7f2c7e2bf85cc66d82a7','2018-06-05','1989-01-26 15:36:49'),
+(56,'Hermina','Waelchi','nona69@example.net',29,'831ce217dd86526b9a34b1832e3a2719dd5a984c','2002-05-30','2014-01-31 22:08:59'),
+(57,'Angelo','Pagac','felicity10@example.org',1286036921,'bfe0061271f586b17be3a5d6decd313e921a581e','1992-10-02','2001-03-05 11:59:53'),
+(58,'Valentina','Wehner','zwisozk@example.net',335,'8e980a88b6209664d5156747284dd9b955b231c0','1977-07-26','1986-08-11 19:36:32'),
+(59,'Constantin','Kassulke','creynolds@example.net',196,'ab36df04c4db3eb0e0d7f21b973382dd354f4463','2018-05-08','2017-03-09 14:48:39'),
+(60,'Efren','Klein','lambert29@example.net',336097,'55f0a630a6ff7d1bd7493ed7e5a22ef0ce36428e','2018-12-21','1988-11-20 23:45:24'),
+(61,'Marlee','Ortiz','dgoodwin@example.org',0,'8b4334493932a8cc2bff81049cf3a87e3e4315a0','1980-08-15','1979-05-18 00:38:43'),
+(62,'Jody','Williamson','adams.marielle@example.org',0,'a3c1768cd7c04643ae107f15997908cf52a4d477','2011-08-08','1982-09-27 04:45:58'),
+(63,'Lupe','Rau','federico.windler@example.com',1027880954,'689d96cc7123c28d71ff42c436e3ffdffb9ef629','1988-08-20','1977-10-19 14:00:58'),
+(64,'Eleanora','Nienow','jboehm@example.com',92,'8c93f3e2b4f334c7b14a9208a6ef27c1f8a22600','1975-07-29','1972-11-14 04:02:31'),
+(65,'Jessy','Grant','smiller@example.net',263914,'abc0b4bb0dd4f4f03c629c4dadec1831b235b0a8','1992-05-24','2002-10-30 12:58:55'),
+(66,'Francisco','Krajcik','swisoky@example.org',0,'430593e50efdc0df703fc75d02793dadd4a5b925','1986-08-03','2018-07-14 13:22:47'),
+(67,'Ola','Schultz','claire49@example.org',852,'cea83dedf0ec2304f144ce981ca5d524131666e6','1976-08-23','2005-03-01 14:59:08'),
+(68,'Jarret','Turcotte','rodriguez.emma@example.org',237,'3d866118c3d0d852dbf931986804515835f54369','2011-11-21','1978-06-10 15:33:17'),
+(69,'Levi','Witting','patience.stoltenberg@example.net',540,'0718a7a7901953189b2ec68c6c6fc3ed798c145b','1975-08-30','2004-08-01 17:22:54'),
+(70,'Zachery','Williamson','mhermiston@example.net',0,'b459244607438235ed69d436d8ae77a9583ecc10','2011-09-09','1997-03-22 14:21:23'),
+(71,'Adriel','Ward','kailee99@example.com',1,'d9b951167af07546abcf4fe9ab66d66cfb648b91','2008-04-09','1976-07-28 09:34:13'),
+(72,'Arnold','Botsford','langworth.riley@example.org',656,'fe7b013bc2275a969661414df2322688a85f5794','1975-03-09','2019-12-01 09:27:19'),
+(73,'Reta','Fay','sdooley@example.net',1131311089,'275ab4ac7cdda661bea77ae069a10b8f97dc31d5','1975-02-22','1977-07-22 21:42:20'),
+(74,'Vivien','Pacocha','reichel.ahmed@example.org',6247177144,'96be3514495564aaaf673fc46772eaf212aa2024','2015-11-28','1985-08-17 20:53:37'),
+(75,'Marina','Gerhold','rgaylord@example.net',614,'53a26b358d4f958f13e2258941287823708cfd0e','2000-08-21','1997-09-18 18:58:54'),
+(76,'Raina','McGlynn','bartholome83@example.org',742469,'310d4640ef0909739d1e1ac560fa06e8f9f04957','1997-02-19','2010-11-20 07:30:30'),
+(77,'Cortez','Kozey','grady.caleigh@example.net',687275,'100ea3ded449f9c2b9a620ec3b5b2828629f35c2','1994-06-21','1994-11-01 12:50:54'),
+(78,'Consuelo','Barrows','xmitchell@example.net',0,'06592925b3a6b177411c6c9e4a6e758246895741','2012-05-25','2007-08-08 02:58:44'),
+(79,'Jolie','Oberbrunner','shane78@example.org',6,'639cc88cb338fe1ceb6bff50f771ce4b0d4ddb9d','2017-05-31','2006-03-28 09:34:06'),
+(80,'Claudie','Walter','ortiz.irwin@example.com',293,'69dd75685a7a9eaf63cba45d8bce50c56f1d65db','2012-01-19','2006-12-31 03:32:01'),
+(81,'Eulah','Stokes','jaqueline89@example.net',1,'b174c02d2c01b68ce5ed06e3da62dc1e1a7a825f','1987-08-19','1990-09-11 18:55:03'),
+(82,'Danika','Bergnaum','marilyne.wilderman@example.org',743,'5f8c6b9ecfe5504bf899a279a4f4b078b0b4b0e3','1990-06-02','1985-04-29 02:51:55'),
+(83,'Madelyn','Treutel','sarina13@example.net',0,'acff65e96ed8b3b4e7ee705408b78ca841005c38','2011-04-29','2019-07-04 17:23:04'),
+(84,'Christy','Hammes','arturo35@example.com',186,'3989276a06618b8e303820844ad03ceff098cd89','1995-04-20','2020-03-06 19:09:06'),
+(85,'Sydney','Gulgowski','marjolaine30@example.org',0,'e12f1c8df4ec13fe01dd94ef3a21887a07d80e53','2001-07-29','1980-02-16 04:21:53'),
+(86,'Rudolph','Pouros','fhauck@example.org',674,'caf60164748afdaf1fa3bbb8b0eccaac84b71880','1974-07-10','1984-10-22 05:15:43'),
+(87,'Chyna','Denesik','kuhlman.taya@example.net',990,'f2b40e9972c51e1ae97cac0c62d2540b8bfad0ab','1992-03-21','1992-07-16 08:43:24'),
+(88,'Herta','Blick','aditya12@example.org',1,'45c58f86c9b74d76902d8d2dc71852d87b189a43','1990-11-12','1973-10-09 12:16:45'),
+(89,'Toni','Reichel','homenick.alexandra@example.com',1,'0bb6c08c8c1432f5bc68b3a31e5664eb85b140f5','1971-05-01','2000-02-02 13:46:59'),
+(90,'Magdalen','Beahan','karli.ankunding@example.org',1,'51718f21eb7c88dbea3296d2e1587f36bb220453','2001-11-18','2014-05-11 02:02:52'),
+(91,'Emelia','Raynor','pearl.turcotte@example.com',479,'c743f6bfa56d3e07d0d8b6bc38010267062fe63b','1976-10-04','2015-07-19 21:50:32'),
+(92,'Shanon','Jast','cschaefer@example.org',0,'7f32409edc5f42b848181a4c3ac4584562a7a84f','2013-07-29','1979-03-16 17:57:01'),
+(93,'Maddison','Mueller','pmosciski@example.net',987,'71e42bf9ed31831004e40bdc9a896654bd73eedf','1972-08-12','1983-11-29 07:52:38'),
+(94,'Gillian','Lindgren','noah.schroeder@example.com',5857195626,'8448cc2150ce3d3a4a7761d40cd44aa85920029d','1977-03-21','1973-06-21 08:41:00'),
+(95,'Alexis','Wiegand','langworth.clemens@example.net',0,'62bdcd13d0b2a3f5986e6d86342a83271ebfce4c','2016-04-14','2002-12-04 09:53:40'),
+(96,'Emory','Stokes','tromp.darren@example.com',1,'23521329e0f95290e249457d4e2ed6f5a10ad4fd','1997-06-18','2000-02-05 01:46:02'),
+(97,'Bradly','Dach','winifred76@example.com',1,'39430cbf6b5b0ea6216cbcb85920b6caa27d833a','1973-09-21','2012-07-14 07:02:32'),
+(98,'Elfrieda','Gaylord','letitia14@example.com',0,'df90fae11ea43d2eb37777c8c42b0ac0b0fc8151','1974-06-20','2019-06-22 04:40:18'),
+(99,'Phoebe','Keebler','uhuels@example.org',0,'b60acd3ca9e99d46abebe60b951ea886c898f364','2013-03-26','1983-02-10 04:53:34'),
+(100,'Sven','Kovacek','tyree99@example.net',273867,'c197c2423a64d0b92aee0940258e80af680decc5','1983-06-01','2017-01-15 16:23:35');
+
+
+
+DROP TABLE IF EXISTS `delivery_destinations`;
+CREATE TABLE `delivery_destinations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `sender_id` bigint(20) unsigned NOT NULL,
+  `city` varchar(255),
+  `street` varchar(255),
+  `house` varchar(255),
+  `flat` varchar(255),
+  `receiver` varchar(255),
+  PRIMARY KEY (`id`),
+  INDEX `sender` (`sender_id`),
+  FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
+);
+
+INSERT INTO `delivery_destinations` VALUES
+(1,54,'South Adrain','Towne Flat','4714','03427','Wade Stroman DDS'),
+(2,24,'Gilbertbury','Audie Fall','90813','2051','Dr. Rubie Mayer'),
+(3,8,'Lake Herminiaburgh','Corkery Stravenue','08670','6957','Neva Hand'),
+(4,92,'Hackettmouth','Paucek Summit','28544','36246','Tyree Kerluke Sr.'),
+(5,94,'East Dave','Pagac Falls','448','457','Santos Glover'),
+(6,65,'Stehrberg','Francisca Street','29024','9055','Minerva Okuneva I'),
+(7,26,'Rowlandburgh','Anya Passage','96385','96892','Prof. Johathan Crist'),
+(8,52,'Strackeside','Kayli Lane','53578','658','Mr. Destin Kunde Jr.'),
+(9,95,'Edytheberg','Kolby Crossroad','869','01996','Demetrius Batz'),
+(10,54,'South Alayna','Prohaska Branch','752','08162','Ms. Susan McDermott'),
+(11,19,'West Alyceburgh','Audra Brook','198','82712','Prof. Dawn Schmidt'),
+(12,43,'South Juliannestad','Jamaal Tunnel','2990','875','Thurman Frami'),
+(13,9,'East Nedshire','Beer Creek','19289','7452','Declan Cartwright'),
+(14,76,'Lake Clevelandton','Walker Mountain','97294','42912','Gilda Stanton'),
+(15,33,'Bayleemouth','Phoebe Throughway','43930','84369','Sarai Spencer'),
+(16,87,'Whitehaven','Von Tunnel','1789','44969','Ludwig Kutch'),
+(17,10,'Lake Annie','Ena Cliff','570','1032','Dr. Beau Lindgren'),
+(18,66,'Rhettstad','Domenick Views','6965','814','Melvin Bartoletti'),
+(19,60,'Kuhicland','Satterfield Forge','86446','006','Ms. Nadia Rowe V'),
+(20,100,'Weberfort','Barrows Parkways','03598','75942','Cale Halvorson'),
+(21,75,'West Suzanneburgh','Neha Place','4222','724','Ari Schaefer'),
+(22,69,'Hymanmouth','Brendon Terrace','650','366','Raheem Bailey'),
+(23,37,'New Lucile','Gibson Villages','956','8497','Dr. Coy Zulauf II'),
+(24,16,'Vernachester','Richie Forest','1830','2124','Rossie Jenkins'),
+(25,47,'Rickyport','Christine Circle','47402','944','Chance Runolfsson'),
+(26,81,'Romagueramouth','Luna Trail','109','453','Orpha Stoltenberg'),
+(27,7,'Nathanielland','Shawn Isle','9759','07570','Cheyenne Feil'),
+(28,56,'Jeweltown','Douglas Villages','0119','715','Derrick Treutel'),
+(29,16,'Alexysberg','Rosetta Trafficway','800','995','Kennedi Strosin'),
+(30,67,'East Reymouth','Georgiana Prairie','57183','6243','Dr. Wade Muller V'),
+(31,18,'Wilkinsonchester','Yundt Summit','5474','380','Mr. Mathew Jacobi PhD'),
+(32,70,'South Jasperstad','Rogahn Crossing','6279','779','Mollie Ritchie II'),
+(33,90,'Jamaalbury','Felicia Estate','4531','215','Mathilde Jakubowski'),
+(34,25,'West Kristian','Hagenes Pine','8111','0254','Prof. Elizabeth Wintheiser'),
+(35,61,'New Joanny','Wilkinson Key','5993','303','Jamil Stanton'),
+(36,83,'Lake Sadiemouth','Lynch Ranch','091','26261','Heath Russel'),
+(37,89,'Charleneburgh','Sophia Gardens','1796','944','Torey Boyle MD'),
+(38,86,'Carissabury','Chanel Coves','48592','5358','Asia Emard'),
+(39,35,'Rashawnport','Miller Pines','3115','25841','Whitney Schuster I'),
+(40,84,'North Lemuel','Corwin Loaf','531','99846','Rey Connelly'),
+(41,40,'Lake Elfrieda','Ciara Brooks','38617','050','Jakayla Terry PhD'),
+(42,53,'East Aleenport','Eldred Green','6852','3797','Chris Zemlak II'),
+(43,27,'Assuntaview','Barton Streets','561','413','Orrin Emard'),
+(44,48,'New Rachaelfort','Jacobs Parks','215','000','Maureen Steuber'),
+(45,29,'East Marie','Iva Mission','3026','079','Mafalda Kessler'),
+(46,59,'Port Duncan','Gottlieb Mission','868','642','Jeanie Dach'),
+(47,35,'Christopherside','Schultz Union','35667','3938','Dr. King Dickinson'),
+(48,39,'West Chauncey','Lueilwitz Ports','1435','03320','Merle Simonis'),
+(49,25,'Larsonside','Imogene Burgs','231','91155','Shawna Senger'),
+(50,95,'Hartmannstad','Christiana Manors','78012','6072','Mayra Lowe'),
+(51,38,'Earlinebury','Claud Trace','20089','648','Susanna Bins'),
+(52,99,'Hettiefurt','Zieme Place','050','607','Finn Tillman'),
+(53,63,'North Budburgh','Enid Common','67966','728','Clemens Hackett'),
+(54,75,'Nathenborough','Jovani Hill','24283','667','Oren Emmerich'),
+(55,15,'North Tomas','Senger Mill','894','9110','Dr. Max Greenholt'),
+(56,9,'Nathanialport','Senger Rapid','999','93944','Trent Brekke'),
+(57,56,'Ziemeton','King Road','44034','03980','Ms. Nichole Bednar MD'),
+(58,21,'West Daphneytown','Steuber Manor','895','0483','Travis Murphy'),
+(59,64,'Port Garrisonside','Augustine Crescent','7879','982','Pink Heidenreich'),
+(60,71,'North Meta','Christina Pike','2704','7345','Austin Pfannerstill'),
+(61,87,'Leraton','Delia Estate','53203','00293','Korbin Cremin'),
+(62,82,'New Edwardview','Krajcik Stravenue','4852','9499','Makenna Zboncak III'),
+(63,40,'South Imelda','Kemmer Landing','9761','034','Kelly Harber'),
+(64,77,'Ziemefurt','Huel Station','355','84650','Kieran Wilderman'),
+(65,6,'South Alvischester','Romaguera Summit','8884','189','Rosa Schamberger'),
+(66,1,'Lake Geraldport','Bogisich Valleys','2306','151','Dr. Luciano Greenfelder'),
+(67,59,'Smithbury','Little Spring','64137','65480','Savanna Gulgowski DDS'),
+(68,95,'Jacobsborough','Ambrose Ridges','7673','963','Casandra Mosciski'),
+(69,87,'New Jenifer','Ramiro Forest','17158','73959','Frederick Stehr'),
+(70,93,'Lialand','Jamey Tunnel','897','762','Beverly White'),
+(71,78,'Franciscotown','Riley Center','98640','2687','Lenore Cassin MD'),
+(72,26,'Farrellport','Metz Burg','35996','969','Joyce Kulas'),
+(73,46,'Port Jessieville','Ettie Camp','763','5876','Beth Mayer'),
+(74,5,'South Ludwig','Emmerich Stravenue','5470','297','Rey Stracke PhD'),
+(75,74,'Isadoretown','McClure Streets','7926','14745','Dr. Coby Altenwerth'),
+(76,75,'Lake Harry','Syble Meadow','27411','3277','Ezequiel Abshire'),
+(77,64,'North Jeannebury','Lucius Ferry','41817','6567','Kevon Roberts'),
+(78,9,'Malloryborough','Jessica Circles','14300','00717','Arlie Kihn'),
+(79,13,'East Gonzalo','O\'Kon Groves','70395','40858','Casper McGlynn'),
+(80,88,'Friesenfort','Emanuel Cliffs','404','978','Mohamed Kuphal'),
+(81,3,'North Carol','Ward Road','6166','730','Mr. Brody Stark'),
+(82,51,'Gennaromouth','Michele Turnpike','589','42818','Jamison Smitham'),
+(83,87,'Garrickhaven','Barrows Drives','2430','163','Jerome Wintheiser Jr.'),
+(84,65,'Stellaview','Jess Isle','0435','475','Ms. Francesca Wehner'),
+(85,25,'West Adolfburgh','Keeling Circle','7424','553','Stephany Gleason'),
+(86,1,'East Stevefurt','Benton Place','205','8917','Kira Labadie'),
+(87,74,'Kihnville','Garrison Trace','90656','87698','Georgianna Crist PhD'),
+(88,80,'Lake Linnie','Runolfsdottir Meadow','5967','125','Cali Hilpert'),
+(89,22,'Albinhaven','Twila Freeway','514','233','Kelsie Keeling MD'),
+(90,38,'Rosalindborough','Volkman Key','2082','2852','Armani Mosciski MD'),
+(91,51,'North Christopherstad','Tillman Lights','7533','1574','Misty Prosacco'),
+(92,8,'South Urbanborough','DuBuque Spurs','7091','460','Dr. Karli Bartell MD'),
+(93,19,'Schimmelfort','Sauer Road','5019','957','Marquise Stoltenberg'),
+(94,90,'South Wandachester','Jolie Knolls','72392','2301','Sandra Ernser PhD'),
+(95,84,'Ziemannfort','Troy Brook','56365','5558','Mr. Rodger Nikolaus V'),
+(96,25,'Russelburgh','Myriam Springs','962','59436','Mrs. Name Marvin MD'),
+(97,90,'Zachariahfort','Adelia Loaf','1785','53275','Mr. Liam Renner'),
+(98,43,'Kleinchester','Bruce Light','65751','86639','Kelsi O\'Keefe'),
+(99,19,'Greenholthaven','Champlin Mews','20646','335','Darrel Murray'),
+(100,77,'Florencefort','Darlene Street','348','17727','Freda Casper');
+
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+                          `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                          `sender` bigint(20) unsigned NOT NULL,
+                          `total` decimal(10,0) NOT NULL DEFAULT '0',
+                          `destination_id` bigint(20) unsigned NOT NULL,
+                          `created` datetime,
+                          `delivery_timе` datetime,
+                          `status` enum('pending payment','paid','preparing','outForDelivery','delivered','canceled')  DEFAULT 'pending payment',
+                          `update_at` datetime DEFAULT CURRENT_TIMESTAMP,
+                          `message` text,
+                          PRIMARY KEY (`id`),
+                          INDEX `sender_indx` (`sender`),
+                          INDEX `deliver_to` (`destination_id`),
+                          FOREIGN KEY (`sender`) REFERENCES `users` (`id`),
+                          FOREIGN KEY (`destination_id`) REFERENCES `delivery_destinations` (`id`)
+);
+
+INSERT INTO `orders` VALUES
+(1,28,0,74,'2019-04-05 05:02:55','2019-08-14 13:24:39','pending payment','2019-08-05 16:04:19','Nihil soluta quod corporis.'),
+(2,48,0,26,'2019-07-14 16:14:33','2019-10-21 03:13:42','pending payment','2019-05-21 18:36:09','Quas deserunt quibusdam vel.'),
+(3,83,0,99,'2019-07-09 18:39:34','2020-05-29 15:38:35','preparing','2019-09-29 21:22:52','Dolorum possimus non eum sint asperiores accusantium est numquam.'),
+(4,26,0,50,'2020-01-05 06:38:24','2020-08-19 13:06:50','paid','2020-01-22 05:03:39','A dicta aliquam incidunt et.'),
+(5,26,0,95,'2019-04-13 23:21:41','2020-01-08 11:25:24','pending payment','2019-05-17 13:43:02','In vel fugiat et ut iusto molestiae natus.'),
+(6,36,0,13,'2019-07-31 23:00:38','2019-05-25 05:59:14','canceled','2019-05-26 13:16:12','Cumque rerum culpa vitae distinctio.'),
+(7,55,0,37,'2019-12-28 18:31:30','2019-09-28 12:41:36','canceled','2019-08-12 18:15:44','Placeat laborum odio et et maiores et.'),
+(8,47,0,81,'2020-03-10 02:18:10','2019-11-29 01:32:35','preparing','2019-06-26 08:54:46','Officia blanditiis voluptatibus amet distinctio neque nihil.'),
+(9,86,0,49,'2019-09-20 11:51:21','2019-12-18 23:18:58','delivered','2020-02-03 18:12:07','Accusantium similique pariatur iste temporibus.'),
+(10,20,0,22,'2019-09-11 09:39:50','2019-05-28 18:40:38','outForDelivery','2020-02-23 07:39:44','Laborum rerum beatae velit molestias.'),
+(11,11,0,31,'2019-09-07 10:49:12','2019-04-05 18:42:20','outForDelivery','2019-05-23 19:07:45','Vero harum odio quisquam iure commodi sint quisquam.'),
+(12,57,0,84,'2020-01-25 15:02:25','2019-07-23 05:36:30','pending payment','2019-11-16 13:49:06','Earum dolorum at sunt aliquid possimus ut asperiores.'),
+(13,48,0,52,'2019-04-24 20:32:50','2020-02-16 00:26:26','paid','2019-04-14 17:44:11','Ullam velit repellendus culpa quam.'),
+(14,50,0,56,'2019-05-10 01:14:05','2019-09-02 03:00:46','outForDelivery','2019-06-02 18:59:08','Ea qui pariatur numquam in consectetur dolores.'),
+(15,87,0,49,'2019-09-17 00:02:58','2019-05-06 14:59:30','outForDelivery','2019-12-01 16:38:04','Quidem deleniti qui nihil vitae doloremque ipsam fugiat.'),
+(16,22,0,66,'2019-05-05 23:15:32','2019-11-21 21:57:59','outForDelivery','2019-12-19 04:25:06','Et culpa aut et.'),
+(17,15,0,80,'2019-07-10 23:49:28','2020-07-28 14:45:18','outForDelivery','2020-02-23 07:39:44','Laborum rerum beatae velit molestias.'),
+(18,11,0,82,'2019-03-23 16:49:54','2020-08-04 20:06:48','outForDelivery','2019-05-23 19:07:45','Vero harum odio quisquam iure commodi sint quisquam.'),
+(19,71,0,66,'2019-07-03 17:12:06','2020-12-25 03:47:07','pending payment','2019-11-16 13:49:06','Earum dolorum at sunt aliquid possimus ut asperiores'),
+(20,88,0,46,'2020-03-12 05:32:59','2019-06-15 01:18:12','paid','2019-04-14 17:44:11','Ullam velit repellendus culpa quam.'),
+(21,82,0,78,'2019-10-11 08:29:03','2020-08-05 02:02:19','outForDelivery','2019-06-02 18:59:08','Ea qui pariatur numquam in consectetur dolores.'),
+(22,53,0,88,'2019-06-06 07:56:39','2019-12-20 22:09:35','outForDelivery','2019-12-01 16:38:04','Quidem deleniti qui nihil vitae doloremque ipsam fugiat.'),
+(23,78,0,100,'2019-04-11 03:12:52','2019-07-12 16:51:01','outForDelivery','2019-12-19 04:25:06','Et culpa aut et.'),
+(24,100,0,92,'2019-10-09 06:54:42','2019-12-11 00:26:01','delivered','2019-07-28 09:05:20','Voluptatibus earum ratione numquam enim quae.'),
+(25,99,0,87,'2019-10-27 07:13:44','2019-09-28 03:20:37','canceled','2020-03-09 18:05:36','Architecto commodi ea et ex sed.'),
+(26,48,0,11,'2020-02-11 17:19:34','2019-09-26 20:39:32','outForDelivery','2019-09-27 06:45:37','Deserunt quas omnis voluptas rerum voluptatum sequi.'),
+(27,73,0,42,'2019-11-25 18:44:01','2020-04-05 21:23:20','pending payment','2019-08-27 22:53:34','Fugit quia temporibus officiis nihil sint placeat.'),
+(28,49,0,87,'2019-11-29 03:45:14','2019-08-14 00:09:32','paid','2019-04-07 22:52:48','Aliquam odit voluptas provident ab.'),
+(29,37,0,95,'2019-11-08 02:20:49','2020-06-01 16:38:00','delivered','2020-03-07 20:06:34','Omnis illo corporis exercitationem vero odit dolorum quis.'),
+(30,32,0,56,'2019-12-27 01:57:31','2019-03-26 03:53:10','outForDelivery','2019-12-09 06:04:39','Aliquam voluptatum esse aut ducimus nulla harum placeat.'),
+(31,22,0,91,'2019-10-23 19:09:34','2020-12-27 20:11:00','canceled','2019-05-15 23:40:54','Et nesciunt soluta hic dolores rem.'),
+(32,69,0,1,'2019-03-23 08:25:42','2020-09-19 02:31:50','paid','2019-09-30 04:21:17','Voluptates ex nesciunt debitis.'),
+(33,60,0,7,'2019-03-27 13:14:51','2020-10-25 13:13:47','pending payment','2019-09-08 14:49:34','Dolores est aliquam vel necessitatibus.'),
+(34,14,0,88,'2019-07-13 21:58:35','2020-06-10 15:30:37','canceled','2020-02-12 14:10:25','Perspiciatis et quo dignissimos tempore quia consequuntur suscipit.'),
+(35,72,0,33,'2020-02-11 07:44:36','2020-02-21 08:44:39','canceled','2020-02-12 14:10:25','Perspiciatis et quo dignissimos tempore quia consequuntur suscipit.'),
+(36,37,0,75,'2019-11-08 14:57:48','2020-11-05 21:12:26','pending payment','2019-04-29 14:44:59','Ad aut unde qui fugiat quasi qui tempore.'),
+(37,23,0,14,'2020-02-12 14:43:59','2019-10-15 07:05:34','canceled','2019-05-15 23:40:54','Et nesciunt soluta hic dolores rem.'),
+(38,22,0,23,'2019-07-06 23:15:16','2019-08-14 05:51:00','outForDelivery','2019-04-10 07:26:55','Recusandae ratione sit non inventore aperiam.'),
+(39,65,0,26,'2019-07-24 13:25:37','2020-07-10 03:48:35','delivered','2020-02-29 10:05:19','Fugit adipisci dolor laboriosam molestiae beatae nostrum voluptatibus.'),
+(40,33,0,22,'2019-10-17 13:52:56','2020-09-25 04:41:16','paid','2019-09-01 21:05:12','Sit ea ut sit itaque voluptatem dolor vitae illum.'),
+(41,99,0,82,'2019-08-31 14:48:56','2019-07-23 08:55:55','pending payment','2019-08-03 21:20:58','Alias numquam at voluptatem dignissimos.'),
+(42,93,0,42,'2019-07-08 04:06:55','2019-08-26 21:30:47','outForDelivery','2019-11-03 17:46:06','Voluptatibus modi nihil non quia sint similique autem.'),
+(43,94,0,89,'2019-12-20 20:13:09','2020-11-28 21:51:07','canceled','2019-03-20 11:16:37','Sit sed in alias molestiae ut et aut.'),
+(44,93,0,56,'2019-09-22 09:50:32','2019-03-19 09:48:01','pending payment','2019-05-19 13:01:53','Esse id consequatur explicabo in.'),
+(45,30,0,95,'2019-08-04 12:50:14','2019-07-16 15:02:37','pending payment','2019-04-16 19:18:37','Quae odio repudiandae incidunt quia beatae.'),
+(46,42,0,88,'2019-11-25 09:23:46','2020-09-17 07:04:45','canceled','2019-08-30 07:52:04','Perferendis explicabo placeat natus omnis ut.'),
+(47,77,0,64,'2020-01-26 07:54:33','2020-12-18 19:51:53','paid','2020-03-18 16:02:25','Ut aut recusandae enim eligendi.'),
+(48,64,0,44,'2020-01-02 01:55:40','2019-05-26 06:33:08','delivered','2020-02-17 14:23:36','Possimus eveniet animi magni excepturi delectus qui alias.'),
+(49,47,0,96,'2019-08-09 17:24:51','2019-10-21 14:10:36','outForDelivery','2019-12-30 15:29:10','Eveniet temporibus laborum voluptas impedit facilis deleniti nobis.'),
+(50,29,0,45,'2019-04-07 21:30:29','2019-09-05 17:30:54','delivered','2019-06-26 04:17:06','Incidunt dignissimos ipsam sit itaque sit et vel repudiandae.');
+
+DROP TABLE IF EXISTS `order_items`;
+CREATE TABLE `order_items` (
+                               `order_id` bigint(20) unsigned NOT NULL,
+                               `bouquets_id` bigint(20) unsigned NOT NULL,
+                               `amount` bigint(20) unsigned NOT NULL,
+                               `price` decimal(10,0) NOT NULL DEFAULT '0',
+                               PRIMARY KEY (`order_id`,`bouquets_id`),
+                               INDEX `bouquets_id_key` (`bouquets_id`),
+                               FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+                               FOREIGN KEY (`bouquets_id`) REFERENCES `bouquets` (`id`)
+);
+
+INSERT INTO `order_items` VALUES
+(1,37,3,0),
+(1,50,7,0),
+(2,3,3,0),
+(2,4,2,0),
+(2,28,3,0),
+(2,36,2,0),
+(3,22,8,0),
+(3,45,6,0),
+(3,50,6,0),
+(4,4,9,0),
+(4,24,4,0),
+(4,50,6,0),
+(5,49,7,0),
+(6,2,3,0),
+(6,9,3,0),
+(7,37,1,0),
+(9,2,5,0),
+(9,11,5,0),
+(10,28,4,0),
+(11,34,3,0),
+(12,10,4,0),
+(12,29,7,0),
+(12,32,4,0),
+(12,43,1,0),
+(13,34,1,0),
+(13,44,7,0),
+(14,19,5,0),
+(15,20,9,0),
+(15,21,8,0),
+(15,33,8,0),
+(16,20,2,0),
+(16,27,1,0),
+(16,39,7,0),
+(16,50,9,0),
+(17,23,8,0),
+(18,34,1,0),
+(19,15,4,0),
+(22,24,1,0),
+(22,50,1,0),
+(23,24,2,0),
+(23,38,9,0),
+(24,5,5,0),
+(24,8,5,0),
+(24,19,4,0),
+(24,30,7,0),
+(24,43,7,0),
+(25,43,3,0),
+(26,4,1,0),
+(26,10,6,0),
+(26,33,2,0),
+(27,3,1,0),
+(27,26,5,0),
+(27,50,4,0),
+(28,13,9,0),
+(29,29,2,0),
+(30,11,1,0),
+(30,17,2,0),
+(30,25,2,0),
+(30,35,3,0),
+(30,50,7,0),
+(32,7,9,0),
+(32,18,3,0),
+(32,35,8,0),
+(35,28,4,0),
+(36,22,6,0),
+(37,45,3,0),
+(38,2,7,0),
+(38,7,4,0),
+(38,25,5,0),
+(38,48,5,0),
+(39,5,2,0),
+(39,24,1,0),
+(39,40,9,0),
+(39,50,7,0),
+(40,31,5,0),
+(41,8,1,0),
+(41,27,1,0),
+(41,32,1,0),
+(42,21,1,0),
+(42,25,4,0),
+(42,27,2,0),
+(42,38,9,0),
+(43,4,6,0),
+(44,13,1,0),
+(44,17,1,0),
+(45,31,2,0),
+(45,32,7,0),
+(45,39,6,0),
+(46,9,6,0),
+(47,12,9,0),
+(47,25,4,0),
+(48,10,2,0),
+(48,15,2,0),
+(48,18,2,0),
+(49,11,7,0),
+(49,15,1,0),
+(49,49,7,0),
+(50,30,3,0);
+
+
+DROP TABLE IF EXISTS `loyalty_programm`;
+CREATE TABLE `loyalty_programm` (
+  `tier_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tier_name` varchar(255),
+  `tier_discount` bigint(20) unsigned NOT NULL,
+  `entry_points` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`tier_id`),
+  INDEX `tier_name_indx` (`tier_name`)
 );
 
 
-DROP TABLE IF EXISTS decorations;
+INSERT INTO `loyalty_programm` VALUES
+(1,'seed',5,10),
+(2,'sprout',10,30),
+(3,'Leaf Buds',15,60),
+(4,'first Leaf',20,80),
+(5,'inflorescence',30,150),
+(6,'blooming',40,200);
 
-CREATE TABLE decorations(
-id SERIAL PRIMARY KEY,
-category_id BIGINT UNSIGNED NOT NULL,
-name VARCHAR(255),
-color VARCHAR(255),
-description TEXT,
-price DECIMAL(7,2) UNSIGNED NOT NULL,
-material VARCHAR(255),
-
-FOREIGN KEY category_for_item (category_id) REFERENCES categories(id),
-INDEX category_for_item (category_id)
-
+DROP TABLE IF EXISTS `users_points`;
+CREATE TABLE `users_points` (
+                                `user_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                                `points` bigint(20) unsigned NOT NULL,
+                                `tier_id` bigint(20) unsigned,
+                                `updated_at` datetime  ON UPDATE CURRENT_TIMESTAMP,
+                                PRIMARY KEY (`user_id`),
+                                INDEX `tier_level_indx` (`tier_id`),
+                                INDEX `user_id_indx` (`user_id`),
+                                FOREIGN KEY (`tier_id`) REFERENCES `loyalty_programm` (`tier_id`),
+                                FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
 
 
-DROP TABLE IF EXISTS bouquets_size;
+INSERT INTO `users_points` VALUES
+(1,294,NULL,'1986-02-10 10:36:43'),
+(2,128,NULL,'2013-06-10 12:34:39'),
+(3,181,NULL,'1978-05-23 01:28:34'),
+(4,281,NULL,'2016-11-22 21:17:44'),
+(5,271,NULL,'1998-06-29 04:51:37'),
+(6,136,NULL,'1972-04-04 05:10:53'),
+(7,242,NULL,'1999-06-07 19:23:27'),
+(8,230,NULL,'2007-04-27 12:48:00'),
+(9,229,NULL,'1985-04-03 06:31:37'),
+(10,288,NULL,'2018-05-28 20:54:32'),
+(11,120,NULL,'2001-01-18 07:25:53'),
+(12,104,NULL,'2012-08-06 05:54:16'),
+(13,252,NULL,'1972-06-21 05:00:06'),
+(14,167,NULL,'2001-07-16 23:14:21'),
+(15,242,NULL,'2018-03-20 20:17:02'),
+(16,287,NULL,'1993-06-18 13:04:04'),
+(17,95,NULL,'2001-09-08 12:19:35'),
+(18,64,NULL,'1997-11-04 23:00:18'),
+(19,60,NULL,'1975-11-06 14:25:00'),
+(20,235,NULL,'2013-04-28 17:38:04'),
+(21,243,NULL,'1992-04-26 06:49:11'),
+(22,193,NULL,'1998-06-16 15:33:54'),
+(23,290,NULL,'1974-10-10 08:33:42'),
+(24,224,NULL,'2016-11-10 13:03:19'),
+(25,72,NULL,'1990-09-22 19:31:54'),
+(26,140,NULL,'2013-02-28 04:32:01'),
+(27,81,NULL,'1999-07-26 06:51:01'),
+(28,72,NULL,'2003-10-12 00:32:46'),
+(29,141,NULL,'1977-09-25 03:04:54'),
+(30,300,NULL,'2013-04-16 17:15:02'),
+(31,116,NULL,'2000-03-16 15:57:12'),
+(32,118,NULL,'1984-07-23 16:27:26'),
+(33,152,NULL,'2000-02-09 01:24:15'),
+(34,63,NULL,'1976-09-15 04:28:57'),
+(35,90,NULL,'1985-03-06 02:15:12'),
+(36,233,NULL,'2012-04-10 16:11:26'),
+(37,16,NULL,'1990-07-01 23:44:44'),
+(38,74,NULL,'2003-01-20 03:47:00'),
+(39,79,NULL,'2001-11-25 18:00:47'),
+(40,47,NULL,'1980-05-25 00:22:07'),
+(41,20,NULL,'1993-12-24 05:08:34'),
+(42,63,NULL,'1979-10-09 01:01:59'),
+(43,51,NULL,'1989-05-06 13:34:40'),
+(44,293,NULL,'1980-09-15 01:22:03'),
+(45,214,NULL,'1974-07-05 03:04:34'),
+(46,193,NULL,'1990-06-27 22:13:58'),
+(47,179,NULL,'2005-08-02 01:36:36'),
+(48,264,NULL,'1989-01-28 11:40:18'),
+(49,1,NULL,'2004-02-09 23:46:55'),
+(50,152,NULL,'2003-01-02 18:55:56'),
+(51,93,NULL,'1987-01-08 22:06:49'),
+(52,79,NULL,'1974-08-28 23:51:41'),
+(53,241,NULL,'1984-08-09 09:56:18'),
+(54,51,NULL,'1977-12-06 22:42:41'),
+(55,263,NULL,'1990-12-23 23:06:52'),
+(56,69,NULL,'2014-11-29 20:54:53'),
+(57,176,NULL,'1983-10-18 01:39:33'),
+(58,247,NULL,'1999-07-13 19:33:09'),
+(59,129,NULL,'1975-12-13 23:05:02'),
+(60,46,NULL,'2004-09-05 19:04:53'),
+(61,176,NULL,'1998-04-17 05:07:30'),
+(62,104,NULL,'2018-12-23 11:20:11'),
+(63,44,NULL,'1974-11-05 08:36:34'),
+(64,175,NULL,'2018-05-12 09:55:14'),
+(65,10,NULL,'2019-01-08 18:10:11'),
+(66,42,NULL,'2009-09-25 14:13:48'),
+(67,173,NULL,'1996-08-28 11:50:57'),
+(68,129,NULL,'1986-06-24 11:09:00'),
+(69,294,NULL,'1975-09-05 13:10:42'),
+(70,144,NULL,'2008-08-10 23:53:32'),
+(71,113,NULL,'2003-01-06 15:37:32'),
+(72,199,NULL,'2017-10-14 11:20:52'),
+(73,226,NULL,'2011-05-21 21:50:24'),
+(74,285,NULL,'1977-03-10 03:20:39'),
+(75,28,NULL,'1998-12-28 17:20:26'),
+(76,265,NULL,'1973-03-26 18:05:32'),
+(77,45,NULL,'1985-02-14 17:54:54'),
+(78,300,NULL,'1995-06-18 12:05:43'),
+(79,211,NULL,'1979-01-28 06:53:25'),
+(80,239,NULL,'2008-04-09 21:18:53'),
+(81,162,NULL,'2005-06-11 13:35:37'),
+(82,89,NULL,'2012-06-12 00:59:39'),
+(83,242,NULL,'1971-01-11 12:54:15'),
+(84,72,NULL,'1991-11-09 05:41:46'),
+(85,128,NULL,'2010-04-10 18:54:46'),
+(86,179,NULL,'2002-02-07 08:27:06'),
+(87,79,NULL,'2009-12-12 16:56:18'),
+(88,73,NULL,'1988-08-11 05:55:29'),
+(89,73,NULL,'1989-12-25 02:37:20'),
+(90,199,NULL,'2018-02-05 05:49:27'),
+(91,120,NULL,'2019-09-23 18:11:33'),
+(92,135,NULL,'1972-01-10 19:17:16'),
+(93,253,NULL,'1980-04-13 22:14:25'),
+(94,269,NULL,'2004-08-04 10:51:11'),
+(95,48,NULL,'1972-02-26 10:21:59'),
+(96,225,NULL,'1975-08-12 02:07:03'),
+(97,291,NULL,'1984-05-12 21:55:21'),
+(98,11,NULL,'1997-04-20 12:13:31'),
+(99,132,NULL,'1996-11-16 16:35:37'),
+(100,140,NULL,'1988-02-05 09:06:31');
 
-CREATE TABLE bouquets_size(
-id SERIAL PRIMARY KEY,
-name VARCHAR(255)
+
+
+DROP TABLE IF EXISTS `supplies`;
+CREATE TABLE `supplies` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `item_id` bigint(20) unsigned NOT NULL,
+  `value` int(10) unsigned,
+  `supplied_on` datetime DEFAULT CURRENT_TIMESTAMP,
+  `shelf_life_period_id` bigint(20) unsigned NOT NULL,
+  `expiration_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `shelf_life_period_id_of_item` (`shelf_life_period_id`),
+  INDEX `item_id_indx` (`item_id`),
+  FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
+  FOREIGN KEY (`shelf_life_period_id`) REFERENCES `shelf_life_periods` (`id`)
 );
 
-DROP TABLE IF EXISTS bouquets;
-
-CREATE TABLE bouquets(
-id SERIAL PRIMARY KEY,
-name VARCHAR(255),
-description TEXT,
-price DECIMAL(7,2) UNSIGNED NOT NULL,
-image_url VARCHAR(255),
-occasion_id BIGINT UNSIGNED NOT NULL,
-size_id BIGINT UNSIGNED NOT NULL,
-
-FOREIGN KEY occasion_for_bouquete (occasion_id) REFERENCES occasions(id),
-FOREIGN KEY size_of_bouquets(size_id) REFERENCES bouquets_size(id),
-
-INDEX occasion_for_bouquete(occasion_id),
-INDEX size_of_bouquets (size_id)
-
-);
-
-
-DROP TABLE IF EXISTS flowers_and_herbs_in_bouquets;
-
-CREATE TABLE flowers_and_herbs_in_bouquets(
-bouquet_id BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-item_id BIGINT UNSIGNED NOT NULL,
-quantity_of_used_flowers BIGINT UNSIGNED NOT NULL,
-
-FOREIGN KEY bouquet_from (bouquet_id) REFERENCES bouquets(id),
-FOREIGN KEY item_in(item_id) REFERENCES flowers_and_herbs(id)
-
-);
-
-DROP TABLE IF EXISTS decorations_in_bouquets;
-
-CREATE TABLE decorations_in_bouquets(
-bouquet_id BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-item_id BIGINT UNSIGNED NOT NULL,
-quantity_of_used_decoration BIGINT UNSIGNED NOT NULL,
-
-FOREIGN KEY bouquet_from (bouquet_id) REFERENCES bouquets(id),
-FOREIGN KEY item_in(item_id) REFERENCES decorations(id)
-
-);
-
-DROP TABLE IF EXISTS discounts;
-
-CREATE TABLE discount(
-id SERIAL PRIMARY KEY,
-starting_on DATETIME,
-finishing_on DATETIME,
-amount BIGINT UNSIGNED NOT NULL,
-made_for_item_id BIGINT UNSIGNED NOT NULL,
-
-FOREIGN KEY discounts_by_occasion(made_for_item_id) REFERENCES occasions(id),
-FOREIGN KEY bouquets_by_bouquets (made_for_item_id) REFERENCES bouquets(id),
-
-INDEX discounts_by (made_for_item_id)
-);
-
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users(
-id SERIAL PRIMARY KEY,
-first_name VARCHAR(255),
-last_name VARCHAR(255),
-email VARCHAR(255),
-phone BIGINT,
-password_hash VARCHAR(255),
-bithday DATE,
-register_at DATETIME DEFAULT NOW(),
-
-INDEX last_name_first_name (last_name, first_name),
-INDEX users_phone_idx(phone),
-INDEX users_email_idx(email)
-
-);
-
-DROP TABLE IF EXISTS delivery_destinations;
-
-CREATE TABLE delivery_destinations(
-id SERIAL PRIMARY KEY,
-sender_id BIGINT UNSIGNED NOT NULL,
-city VARCHAR(255),
-street VARCHAR(255),
-house VARCHAR(255),
-flat VARCHAR(255),
-receiver VARCHAR(255),
-
-
-FOREIGN KEY sender (sender_id) REFERENCES users(id),
-INDEX sender (sender_id)
-);
-
-
-DROP TABLE IF EXISTS orders;
-
-CREATE TABLE orders (
-id SERIAL PRIMARY KEY,
-sender BIGINT UNSIGNED NOT NULL,
-item_id BIGINT UNSIGNED NOT NULL,
-destination_id BIGINT UNSIGNED NOT NULL,
-discount_id BIGINT UNSIGNED NOT NULL,
-created DATETIME,
-deliver_at DATETIME,
-`status` ENUM('pending payment', 'paid', 'preparing', 'outForDelivery', 'delivered', 'canceled'),
-message TEXT,
-
-FOREIGN KEY sender_key (sender) REFERENCES users(id),
-FOREIGN KEY item_to_delivery (item_id) REFERENCES bouquets(id),
-FOREIGN KEY deliver_to (destination_id) REFERENCES delivery_destinations(id),
-FOREIGN KEY discount_for_order (discount_id) REFERENCES discount(id),
-
-INDEX sender_indx (sender),
-INDEX item_to_delivery (item_id),
-INDEX deliver_to (destination_id)
-
-
-);
-
-DROP TABLE IF EXISTS supplies;
-CREATE TABLE supplies (
-  id SERIAL PRIMARY KEY,
-  item_id BIGINT UNSIGNED NOT NULL,
-  category_id BIGINT UNSIGNED NOT NULL,
-  value INT UNSIGNED,
-  supplied_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-  shelf_life_period_id BIGINT UNSIGNED NOT NULL,
-  expiration_date DATETIME NOT NULL, # должен расчитываться???
-   
-  FOREIGN KEY item_id_key(item_id) REFERENCES flowers_and_herbs(id),
-  FOREIGN KEY item_id_key(item_id) REFERENCES decorations(id),
-  FOREIGN KEY category_of_item(category_id) REFERENCES categories (id),
-  FOREIGN KEY shelf_life_period_id_of_item(shelf_life_period_id) REFERENCES shelf_life_periods(id),
-  
-  INDEX item_id_indx (item_id),
-  INDEX category_of_item(category_id)
-);
-
-
-DROP TABLE IF EXISTS inventory;
-CREATE TABLE inventory (
-  item_id BIGINT UNSIGNED NOT NULL,
-  category_id BIGINT UNSIGNED NOT NULL,
-  supply_id BIGINT UNSIGNED NOT NULL,
-  value INT UNSIGNED,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-   
-  PRIMARY KEY(item_id, category_id),
-  FOREIGN KEY item_id_key(item_id) REFERENCES flowers_and_herbs(id),
-  FOREIGN KEY item_id_key(item_id) REFERENCES decorations(id),
-  FOREIGN KEY sypply_info(supply_id) REFERENCES supplies (id),
-  
-  
-  INDEX item_id_indx (item_id)
-);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO `supplies` VALUES
+(1,8,25,'1983-01-06 15:17:37',1,'2000-04-10 02:25:10'),
+(2,24,56,'2007-05-27 13:42:14',5,'1982-12-28 04:32:09'),
+(3,39,21,'2007-09-22 16:11:52',3,'2003-03-09 12:12:17'),
+(4,43,6,'2007-07-01 00:51:49',2,'2018-12-24 03:40:07'),
+(5,42,53,'2009-04-02 01:24:43',1,'1984-10-11 02:19:03'),
+(6,28,99,'1997-07-12 08:27:49',4,'2001-11-30 06:16:44'),
+(7,24,63,'1994-06-13 20:15:40',2,'2019-06-01 07:23:16'),
+(8,12,50,'1970-09-21 06:29:02',2,'2004-12-25 12:46:07'),
+(9,35,14,'1999-10-18 09:07:25',3,'1989-08-18 08:19:05'),
+(10,12,53,'1998-12-12 23:03:52',1,'2009-02-12 10:19:19'),
+(11,47,44,'2001-05-18 02:01:18',1,'2002-09-26 23:26:41'),
+(12,15,90,'2004-05-08 00:01:29',5,'2013-01-30 18:42:47'),
+(13,14,24,'2013-12-16 20:57:08',2,'1975-04-16 09:26:02'),
+(14,7,98,'2001-03-21 14:34:09',5,'2017-05-17 11:44:18'),
+(15,31,8,'2018-05-20 09:34:48',4,'1972-02-25 22:59:19'),
+(16,3,87,'2002-10-28 19:22:46',4,'1994-01-22 08:46:04'),
+(17,11,81,'1979-12-23 05:53:18',5,'2016-02-08 03:36:12'),
+(18,32,18,'1990-12-13 01:32:15',5,'1993-12-21 13:49:35'),
+(19,8,77,'2008-01-25 13:42:36',3,'1991-06-16 15:16:13'),
+(20,41,62,'1996-12-08 20:32:55',3,'1986-01-23 18:31:34'),
+(21,39,70,'1989-04-17 02:45:37',4,'1999-05-26 06:13:40'),
+(22,9,63,'1977-10-11 20:49:44',3,'1992-12-08 00:23:32'),
+(23,10,85,'2001-02-08 15:57:52',5,'1978-06-09 17:06:03'),
+(24,46,99,'2006-11-21 19:55:37',4,'2012-04-12 18:44:27'),
+(25,11,54,'2012-02-08 01:07:30',3,'1980-07-25 03:34:19'),
+(26,16,30,'1993-07-09 16:58:53',3,'2005-04-16 23:11:07'),
+(27,45,19,'1975-02-02 23:13:25',5,'1974-05-07 19:47:48'),
+(28,4,91,'1999-09-01 04:18:23',1,'1972-01-01 08:11:54'),
+(29,45,56,'1970-10-01 17:37:50',2,'1986-03-15 04:35:53'),
+(30,35,4,'2013-07-26 22:33:08',5,'1980-07-20 18:40:49'),
+(31,1,84,'1983-09-14 17:29:53',3,'1986-01-22 03:08:21'),
+(32,2,45,'1975-05-07 23:36:07',4,'1981-11-17 06:39:14'),
+(33,42,94,'1976-08-05 09:36:15',1,'1976-01-09 13:13:56'),
+(34,47,71,'1973-06-04 21:06:39',5,'1984-04-11 01:30:20'),
+(35,44,49,'1972-01-25 02:13:28',1,'2014-02-08 16:10:17'),
+(36,37,67,'1992-06-06 15:22:16',4,'1982-11-13 22:41:59'),
+(37,16,92,'2015-11-01 11:24:32',1,'1992-06-01 14:17:00'),
+(38,46,14,'2018-05-26 06:49:29',2,'2008-12-05 12:54:23'),
+(39,23,71,'2018-11-24 22:43:37',3,'2007-12-11 17:24:00'),
+(40,50,95,'2020-01-03 06:08:27',5,'1989-11-03 23:30:11');
 
