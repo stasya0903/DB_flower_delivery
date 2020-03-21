@@ -1,2 +1,7 @@
 .DS_Store
-.project
+.dbeaver/.credentials-config.json.bak
+.dbeaver/.data-sources.json.bak
+.dbeaver/.project-metadata.json.bak
+.dbeaver/credentials-config.json
+.dbeaver/data-sources.json
+.dbeaver/project-metadata.json
